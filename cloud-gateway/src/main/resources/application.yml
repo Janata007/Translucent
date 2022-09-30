@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: SECTOR-SERVICE
+          uri: lb://SECTOR-SERVICE
+          predicates:
+            - Path= /sectors/**
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/**s

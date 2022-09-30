@@ -19,7 +19,7 @@ public class UserController {
         log.info("saveUser in UserController");
         return this.userService.saveUser(appUser);
     }
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseTemplateVO getUserWithSector(@PathVariable("id") Long userId){
         return this.userService.getUserWithSector(userId);
     }
