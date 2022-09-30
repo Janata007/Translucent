@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     public ResponseTemplateVO getUserWithSector(Long userId) {
         ResponseTemplateVO vo = new ResponseTemplateVO();
         AppUser appUser = this.userRepository.findById(userId).get();
-        Sector sector = restTemplate.getForObject("http://localhost:9091/sector/" + appUser.getSectorId(), Sector.class);
+        Sector sector = restTemplate.getForObject("http://SECTOR-SERVICE/sector/" + appUser.getSectorId(), Sector.class);
         vo.setAppUser(appUser);
         vo.setSector(sector);
         return vo;
