@@ -6,7 +6,24 @@ spring:
           uri: lb://SECTOR-SERVICE
           predicates:
             - Path= /sectors/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: USER-SERVICE
+                fallbackuri: forward:/userServiceFallBack
         - id: USER-SERVICE
           uri: lb://USER-SERVICE
           predicates:
             - Path=/users/**s
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: SECTOR-SERVICE
+                fallbackuri: forward:/sectorServiceFallBack
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutinmiliseconds: 4000
