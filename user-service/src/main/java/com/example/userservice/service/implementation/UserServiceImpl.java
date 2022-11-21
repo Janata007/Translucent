@@ -31,4 +31,7 @@ public class UserServiceImpl implements UserService {
         vo.setSector(sector);
         return vo;
     }
+    public AppUser getSimpleUser(Long userId){
+        return this.userRepository.findById(userId).orElseThrow();
+    }
 }
