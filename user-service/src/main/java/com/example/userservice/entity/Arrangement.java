@@ -1,11 +1,14 @@
 package com.example.userservice.entity;
 
+import com.example.userservice.Priority;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,16 +17,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppUser {
+@Table(name = "arrangement")
+public class Arrangement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
-    private String userName;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private Long sectorId;
-    private String password;
+    private Long arrangementId;
+    private String name;
+    private String code;
+    private double duration;
+    private LocalDateTime startTime; //yyyy-MM-dd-HH-mm-ss-ns format
+    private LocalDateTime endTime;
+    private Priority priority;
     @ManyToMany
-    private List<Arrangement> arrangements;
+    private List<AppUser> participants;
 }

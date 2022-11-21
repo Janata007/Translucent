@@ -1,8 +1,10 @@
 package com.example.userservice.controller;
 
 import com.example.userservice.entity.AppUser;
+import com.example.userservice.entity.ValueObjects.NewUserRequestTemplateVO;
 import com.example.userservice.entity.ValueObjects.ResponseTemplateVO;
 import com.example.userservice.service.implementation.UserServiceImpl;
+import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,13 +22,21 @@ public class UserController {
     private UserServiceImpl userService;
 
     @PostMapping("/")
-    public AppUser saveUser(@RequestBody AppUser appUser) {
+    public AppUser saveUser(@RequestBody NewUserRequestTemplateVO appUser) {
         log.info("saveUser in UserController");
-        return this.userService.saveUser(appUser);
+        AppUser newUser = new AppUser();
+        newUser.setUserName(appUser.getUserName());
+        newUser.setFirstName(appUser.getFirstName());
+        newUser.setLastName(appUser.getLastName());
+        newUser.setEmail(appUser.getEmail());
+        newUser.setSectorId(appUser.getSectorId());
+        newUser.setPassword(appUser.getPassword());
+        newUser.setArrangements(new ArrayList<>());
+        return this.userService.saveUser(newUser);
     }
 
     @GetMapping("/{id}")
-    public ResponseTemplateVO getUserWithSector(@PathVariable("id") Long userId) {
+    public ResponseTemplateVO getUser(@PathVariable("id") Long userId) {
         return this.userService.getUserWithSector(userId);
     }
 }
