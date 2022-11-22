@@ -30,4 +30,19 @@ public class Arrangement {
     private Priority priority;
     @ManyToMany
     private List<AppUser> participants;
+
+    public AppUser addNewParticipant(AppUser user) {
+        this.participants.add(user);
+        return user;
+    }
+
+    public AppUser removeParticipant(AppUser user) {
+        for (AppUser u : participants) {
+            if (u.equals(user)) {
+                this.participants.remove(u);
+                break;
+            }
+        }
+        return user;
+    }
 }

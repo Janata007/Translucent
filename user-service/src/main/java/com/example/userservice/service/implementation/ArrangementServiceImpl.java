@@ -27,4 +27,24 @@ public class ArrangementServiceImpl implements ArrangementService {
         return user.getArrangements();
 
     }
+
+    @Override
+    public Arrangement findById(Long id) {
+        return this.arrangementRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public Arrangement addNewParticipant(Arrangement a, AppUser u) {
+        List<AppUser> participants = a.getParticipants();
+        boolean existsFlag = false;
+        for (AppUser user : participants) {
+            if (user.equals(u)) {
+                existsFlag = true;
+            }
+        }
+        if (!existsFlag) {
+            a.addNewParticipant(u);
+        }
+        return a;
+    }
 }

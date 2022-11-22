@@ -37,4 +37,22 @@ public class ArrangementController {
         newA.setParticipants(Arrays.asList(user));
         return this.arrangementService.saveArrangement(newA);
     }
+
+    @PostMapping("/addParticipant/{userId}/{arrangementId}")
+    public Arrangement addParticipantToArrangement(@PathVariable Long userId, @PathVariable Long arrangementId) {
+        log.info("adding participant in ArrangementController");
+        AppUser user = this.userService.getSimpleUser(userId);
+        Arrangement a = this.arrangementService.findById(arrangementId);
+        a = this.arrangementService.addNewParticipant(a, user);
+        return a;
+    }
+
+    @PostMapping("/removeParticipant/{userId}/{arrangementId}")
+    public Arrangement removeParticipantToArrangement(@PathVariable Long userId, @PathVariable Long arrangementId) {
+        log.info("adding participant in ArrangementController");
+        AppUser user = this.userService.getSimpleUser(userId);
+        Arrangement a = this.arrangementService.findById(arrangementId);
+        a.removeParticipant(user);
+        return a;
+    }
 }
