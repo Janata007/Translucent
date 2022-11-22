@@ -1,5 +1,6 @@
 package com.example.sectorservice.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,5 +22,25 @@ public class Company {
     private String name;
     private String description;
     @ManyToMany
-    private List<Sector> sectorList;
+    private List<Sector> sectorList = new ArrayList<>();
+
+    public void removeSector(Sector sector) {
+        for (Sector s : sectorList) {
+            if (s.equals(sector)) {
+                sectorList.remove(s);
+            }
+        }
+    }
+
+    public void addSector(Sector sector) {
+        boolean isPresent = false;
+        for (Sector s : sectorList) {
+            if (s.equals(sector)) {
+                isPresent = true;
+            }
+        }
+        if (!isPresent) {
+            sectorList.add(sector);
+        }
+    }
 }

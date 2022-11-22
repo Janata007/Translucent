@@ -1,5 +1,6 @@
 package com.example.sectorservice.service.implementation;
 
+import com.example.sectorservice.entity.Company;
 import com.example.sectorservice.entity.Sector;
 import com.example.sectorservice.repository.SectorRepository;
 import com.example.sectorservice.service.SectorService;
