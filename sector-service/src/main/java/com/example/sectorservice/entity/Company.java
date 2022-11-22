@@ -14,13 +14,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Sector {
+public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String code;
+    private String description;
     @ManyToMany
-    private List<Company> companyList;
-
+    private List<Sector> sectorList;
 }

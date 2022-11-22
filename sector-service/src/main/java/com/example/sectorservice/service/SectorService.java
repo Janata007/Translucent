@@ -5,5 +5,5 @@ import com.example.sectorservice.entity.Sector;
 public interface SectorService {
     Sector save(Sector sector);
 
-    Sector findSectorById(Long id);
+    Sector findById(Long id);
 }

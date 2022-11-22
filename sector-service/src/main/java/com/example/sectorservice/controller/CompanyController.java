@@ -1,7 +1,7 @@
 package com.example.sectorservice.controller;
 
-import com.example.sectorservice.entity.Sector;
-import com.example.sectorservice.service.implementation.SectorServiceImplementation;
+import com.example.sectorservice.entity.Company;
+import com.example.sectorservice.service.implementation.CompanyServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/sector")
-public class SectorController {
+@RequestMapping("/company")
+public class CompanyController {
     @Autowired
-    private SectorServiceImplementation sectorService;
+    private CompanyServiceImplementation companyService;
 
     @PostMapping("/")
-    public Sector saveSector(@RequestBody Sector sector) {
-        return sectorService.save(sector);
+    public Company saveNewCompany(@RequestBody Company company) {
+        return this.companyService.save(company);
     }
 
     @GetMapping("/{id}")
-    public Sector findById(@PathVariable Long id) {
-        return sectorService.findById(id);
+    public Company findCompanyById(@PathVariable Long id) {
+        return this.companyService.findById(id);
     }
 }

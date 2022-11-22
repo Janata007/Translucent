@@ -19,7 +19,7 @@ public class SectorServiceImplementation implements SectorService {
     }
 
     @Override
-    public Sector findSectorById(Long id) {
+    public Sector findById(Long id) {
         return sectorRepository.findById(id).orElseThrow(() -> new RuntimeException("Could not find sector"));
     }
 }
