@@ -26,6 +26,7 @@ public class AppUser {
     private Long sectorId;
     private String password;
     private AppUserRole role;
+    private boolean workVisible;
     @ManyToMany
     private List<Arrangement> arrangements;
 }
