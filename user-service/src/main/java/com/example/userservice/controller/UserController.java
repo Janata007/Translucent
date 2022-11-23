@@ -36,7 +36,11 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseTemplateVO getUser(@PathVariable("id") Long userId) {
+    public ResponseTemplateVO getUserWithSector(@PathVariable("id") Long userId) {
         return this.userService.getUserWithSector(userId);
+    }
+    @GetMapping("/simpleUser/{id}")
+    public AppUser getUser(@PathVariable("id") Long userId) {
+        return this.userService.getSimpleUser(userId);
     }
 }

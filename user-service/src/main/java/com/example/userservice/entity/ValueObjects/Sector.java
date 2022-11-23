@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sector {
-    private Long sectorId;
-    private String sectorName;
-    private String sectorCode;
+    private Long id;
+    private String name;
+    private String code;
 }

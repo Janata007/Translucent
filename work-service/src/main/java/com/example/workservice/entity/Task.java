@@ -22,5 +22,6 @@ public class Task {
     private String description;
     private boolean finished;
     private Long arrangementId;
+    private Long userId;
 
 }
