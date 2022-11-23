@@ -15,4 +15,9 @@ public class FallBackController {
         return "Sector service is taking longer than expected. Please try again later";
     }
 
+    @GetMapping("/workServiceFallBack")
+    public String workServiceFallBackMethod() {
+        return "Work service is taking longer than expected. Please try again later";
+    }
+
 }
