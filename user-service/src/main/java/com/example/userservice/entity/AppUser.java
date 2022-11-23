@@ -1,5 +1,6 @@
 package com.example.userservice.entity;
 
+import com.example.userservice.AppUserRole;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ public class AppUser {
     private String email;
     private Long sectorId;
     private String password;
+    private AppUserRole role;
     @ManyToMany
     private List<Arrangement> arrangements;
 }
