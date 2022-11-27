@@ -28,6 +28,7 @@ public class Arrangement {
     private LocalDateTime startTime; //yyyy-MM-dd-HH-mm-ss-ns format
     private LocalDateTime endTime;
     private Priority priority;
+    private Long createdByUser;
     @ManyToMany
     private List<AppUser> participants;
 

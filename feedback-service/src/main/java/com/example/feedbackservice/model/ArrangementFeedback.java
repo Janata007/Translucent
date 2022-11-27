@@ -16,4 +16,9 @@ public class ArrangementFeedback {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String description;
+    private double percent;
+    private double grade;
+    private Long userFromId;
+    private Long arrangementId;
 }

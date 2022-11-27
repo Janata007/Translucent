@@ -1,4 +1,4 @@
-package com.example.workservice.entity;
+package com.example.workservice.model;
 
 import com.example.workservice.Priority;
 import javax.persistence.Entity;
@@ -22,6 +22,7 @@ public class Task {
     private String description;
     private boolean finished;
     private Long arrangementId;
-    private Long userId;
+    private Long createdByUser;
+    private Long createdForUser;
 
 }

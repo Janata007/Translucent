@@ -1,11 +1,14 @@
 package com.example.workservice.service;
 
-import com.example.workservice.entity.Task;
-import com.example.workservice.entity.valueObjects.ResponseTemplateVO;
+import com.example.workservice.model.Task;
+import com.example.workservice.model.valueObjects.TaskWithUserResponseTemplateVO;
 
 public interface TaskService {
     Task save(Task task);
+
     Task remove(Task task);
+
     Task findById(Long id);
-    ResponseTemplateVO getTaskWithUser(Long taskId);
+
+    TaskWithUserResponseTemplateVO getTaskWithUserForUser(Long taskId);
 }

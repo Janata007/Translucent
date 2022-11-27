@@ -1,7 +1,7 @@
 package com.example.workservice.controller;
 
-import com.example.workservice.entity.Task;
-import com.example.workservice.entity.valueObjects.ResponseTemplateVO;
+import com.example.workservice.model.Task;
+import com.example.workservice.model.valueObjects.TaskWithUserResponseTemplateVO;
 import com.example.workservice.service.implementation.TaskServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +17,12 @@ public class TaskController {
     @Autowired
     private TaskServiceImplementation taskService;
 
-    @PostMapping("/{userId}")
-    public Task saveTask(@RequestBody Task task, @PathVariable Long userId) {
-        task.setUserId(userId);
+    @PostMapping("/{byUserId}/{forUserId}")
+    public Task saveTask(@RequestBody Task task, @PathVariable Long byUserId, @PathVariable Long forUserId) {
+        //todo: change createdForUser to be in body instead of path variable
+        task.setCreatedByUser(byUserId);
+        task.setCreatedForUser(forUserId);
         return this.taskService.save(task);
-
     }
 
     @PostMapping("/remove/{id}")
@@ -31,7 +32,8 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseTemplateVO getTaskWithUser(@PathVariable("id") Long taskId) {
-        return this.taskService.getTaskWithUser(taskId);
+    public TaskWithUserResponseTemplateVO getTaskWithUserForUser(@PathVariable("id") Long taskId) {
+        //the task created has the user listed as created FOR him
+        return this.taskService.getTaskWithUserForUser(taskId);
     }
 }

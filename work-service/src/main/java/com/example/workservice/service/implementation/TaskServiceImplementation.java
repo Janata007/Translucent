@@ -1,8 +1,8 @@
 package com.example.workservice.service.implementation;
 
-import com.example.workservice.entity.Task;
-import com.example.workservice.entity.valueObjects.AppUser;
-import com.example.workservice.entity.valueObjects.ResponseTemplateVO;
+import com.example.workservice.model.Task;
+import com.example.workservice.model.valueObjects.AppUser;
+import com.example.workservice.model.valueObjects.TaskWithUserResponseTemplateVO;
 import com.example.workservice.repository.TaskRepository;
 import com.example.workservice.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +36,12 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Override
-    public ResponseTemplateVO getTaskWithUser(Long taskId) {
-        ResponseTemplateVO vo = new ResponseTemplateVO();
+    public TaskWithUserResponseTemplateVO getTaskWithUserForUser(Long taskId) {
+        TaskWithUserResponseTemplateVO vo = new TaskWithUserResponseTemplateVO();
         Task task = this.taskRepository.findById(taskId).orElseThrow();
-        log.info("Task service, GET TASK WITH USER: task fetched " + task.getUserId());
+        log.info("Task service, GET TASK WITH USER: task fetched " + task.getCreatedForUser());
         AppUser user =
-            restTemplate.getForObject("http://USER-SERVICE/users/simpleUser/" + task.getUserId(), AppUser.class);
+            restTemplate.getForObject("http://USER-SERVICE/users/simpleUser/" + task.getCreatedForUser(), AppUser.class);
         vo.setAppUser(user);
         vo.setTask(task);
         return vo;

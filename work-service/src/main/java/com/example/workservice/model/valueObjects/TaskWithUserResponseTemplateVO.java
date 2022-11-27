@@ -1,6 +1,6 @@
-package com.example.workservice.entity.valueObjects;
+package com.example.workservice.model.valueObjects;
 
-import com.example.workservice.entity.Task;
+import com.example.workservice.model.Task;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseTemplateVO {
+public class TaskWithUserResponseTemplateVO {
     private Task task;
     private AppUser appUser;
 

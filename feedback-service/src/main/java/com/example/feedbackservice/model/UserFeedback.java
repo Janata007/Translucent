@@ -16,6 +16,11 @@ public class UserFeedback {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String description;
+    private double percent;
+    private double grade;
     private Long userFromId;
     private Long userForId;
+    private double taskPercent;
+    private double taskGrade;
 }

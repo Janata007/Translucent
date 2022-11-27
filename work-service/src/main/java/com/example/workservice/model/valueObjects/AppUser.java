@@ -1,4 +1,4 @@
-package com.example.workservice.entity.valueObjects;
+package com.example.workservice.model.valueObjects;
 
 import com.example.workservice.AppUserRole;
 import lombok.AllArgsConstructor;
