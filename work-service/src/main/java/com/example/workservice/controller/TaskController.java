@@ -1,8 +1,10 @@
 package com.example.workservice.controller;
 
 import com.example.workservice.model.Task;
+import com.example.workservice.model.valueObjects.TaskWithFeedbackResponseTemplateVO;
 import com.example.workservice.model.valueObjects.TaskWithUserResponseTemplateVO;
 import com.example.workservice.service.implementation.TaskServiceImplementation;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,5 +37,15 @@ public class TaskController {
     public TaskWithUserResponseTemplateVO getTaskWithUserForUser(@PathVariable("id") Long taskId) {
         //the task created has the user listed as created FOR him
         return this.taskService.getTaskWithUserForUser(taskId);
+    }
+
+    @GetMapping("/tasks/{userId}")
+    public List<Task> getTasksForUser(@PathVariable Long userId) {
+        return this.taskService.getTasksForUser(userId);
+    }
+
+    @GetMapping("/{id}")
+    public TaskWithFeedbackResponseTemplateVO getTaskWithFeedbackList(@PathVariable("id") Long taskId) {
+        return this.taskService.getTaskWithFeedbacks(taskId);
     }
 }
