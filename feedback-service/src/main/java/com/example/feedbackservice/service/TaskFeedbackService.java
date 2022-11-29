@@ -1,7 +1,9 @@
 package com.example.feedbackservice.service;
 
 import com.example.feedbackservice.model.TaskFeedback;
+import java.util.List;
 
 public interface TaskFeedbackService {
-    public TaskFeedback getFeedbackForTask(Long taskId);
+     List<TaskFeedback> getFeedbacksForTask(Long taskId);
+     TaskFeedback createFeedbackForTask(Long taskId ,TaskFeedback feedback);
 }

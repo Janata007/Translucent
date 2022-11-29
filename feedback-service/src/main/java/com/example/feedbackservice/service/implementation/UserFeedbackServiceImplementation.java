@@ -3,6 +3,7 @@ package com.example.feedbackservice.service.implementation;
 import com.example.feedbackservice.model.UserFeedback;
 import com.example.feedbackservice.repository.UserFeedbackRepository;
 import com.example.feedbackservice.service.UserFeedbackService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,13 @@ public class UserFeedbackServiceImplementation implements UserFeedbackService {
     private TaskFeedbackServiceImplementation taskFeedbackService;
 
     @Override
-    public UserFeedback getFeedbackForUser(Long userId) {
-        return this.userFeedbackRepository.findById(userId).orElseThrow();
+    public List<UserFeedback> getFeedbacksForUser(Long userId) {
+        return this.userFeedbackRepository.findAllByUserForId(userId);
+    }
+
+    @Override
+    public List<UserFeedback> getFeedbacksFromUser(Long userId) {
+        return this.userFeedbackRepository.findAllByUserFromId(userId);
     }
 
     @Override

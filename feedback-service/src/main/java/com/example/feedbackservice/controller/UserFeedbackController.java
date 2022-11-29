@@ -2,6 +2,7 @@ package com.example.feedbackservice.controller;
 
 import com.example.feedbackservice.model.UserFeedback;
 import com.example.feedbackservice.service.implementation.UserFeedbackServiceImplementation;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +18,18 @@ public class UserFeedbackController {
     private UserFeedbackServiceImplementation userFeedbackService;
 
     @PostMapping("/{id}")
-    public UserFeedback createUserFeedback(@PathVariable Long id,  @RequestBody UserFeedback feedback) {
+    public UserFeedback createUserFeedback(@PathVariable Long id, @RequestBody UserFeedback feedback) {
         return this.userFeedbackService.createFeedbackForUser(id, feedback);
     }
 
-    @GetMapping("/{id}")
-    public UserFeedback getUserFeedback(@PathVariable Long id) {
-        return this.userFeedbackService.getFeedbackForUser(id);
+    @GetMapping("/for/{id}")
+    public List<UserFeedback> getUserFeedback(@PathVariable Long id) {
+        return this.userFeedbackService.getFeedbacksForUser(id);
     }
+
+    @GetMapping("/from/{id}")
+    public List<UserFeedback> getUserFeedbackFrom(@PathVariable Long id) {
+        return this.userFeedbackService.getFeedbacksFromUser(id);
+    }
+
 }
