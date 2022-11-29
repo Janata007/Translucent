@@ -7,7 +7,7 @@ public interface CompanyService {
 
     Company findById(Long id);
 
-    Company deleteById(Long id);
+    void deleteById(Long id);
 
     Company deleteSectorFromCompany(Long companyId, Long sectorId);
 

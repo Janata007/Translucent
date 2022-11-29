@@ -26,10 +26,9 @@ public class CompanyServiceImplementation implements CompanyService {
     }
 
     @Override
-    public Company deleteById(Long id) {
+    public void deleteById(Long id) {
         Company company = this.companyRepository.findById(id).orElseThrow();
         this.companyRepository.deleteById(id);
-        return company;
     }
 
     @Override
@@ -37,6 +36,7 @@ public class CompanyServiceImplementation implements CompanyService {
         Company company = this.companyRepository.findById(companyId).orElseThrow();
         Sector sector = this.sectorRepository.findById(sectorId).orElseThrow();
         company.removeSector(sector);
+        this.companyRepository.save(company);
         return company;
     }
 
@@ -45,6 +45,7 @@ public class CompanyServiceImplementation implements CompanyService {
         Sector sector = this.sectorRepository.findById(sectorId).orElseThrow();
         Company company = this.companyRepository.findById(companyId).orElseThrow();
         company.addSector(sector);
+        this.companyRepository.save(company);
         return company;
     }
 }

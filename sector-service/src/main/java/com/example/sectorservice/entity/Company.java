@@ -25,11 +25,7 @@ public class Company {
     private List<Sector> sectorList = new ArrayList<>();
 
     public void removeSector(Sector sector) {
-        for (Sector s : sectorList) {
-            if (s.equals(sector)) {
-                sectorList.remove(s);
-            }
-        }
+                sectorList.remove(sector);
     }
 
     public void addSector(Sector sector) {

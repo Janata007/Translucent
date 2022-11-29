@@ -1,6 +1,7 @@
 package com.example.workservice.model;
 
 import com.example.workservice.Priority;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,5 +25,6 @@ public class Task {
     private Long arrangementId;
     private Long createdByUser;
     private Long createdForUser;
+    private LocalDateTime dateDue;
 
 }

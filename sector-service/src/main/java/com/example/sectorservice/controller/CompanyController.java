@@ -1,7 +1,6 @@
 package com.example.sectorservice.controller;
 
 import com.example.sectorservice.entity.Company;
-import com.example.sectorservice.entity.Sector;
 import com.example.sectorservice.service.implementation.CompanyServiceImplementation;
 import com.example.sectorservice.service.implementation.SectorServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +30,9 @@ public class CompanyController {
     }
 
     @PostMapping("/{id}/delete")
-    public Company deleteCompanyById(@PathVariable Long id) {
-        return this.companyService.deleteById(id);
+    public String deleteCompanyById(@PathVariable Long id) {
+        this.companyService.deleteById(id);
+        return "sucess";
     }
 
     @PostMapping("/{companyId}/removeSector/{sectorId}")
