@@ -24,6 +24,7 @@ public class AppUser {
     private String lastName;
     private String email;
     private Long sectorId;
+    private Long companyId;
     private String password;
     private AppUserRole role;
     private boolean workVisible;

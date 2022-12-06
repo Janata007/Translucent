@@ -10,4 +10,6 @@ public interface UserService {
 
     ResponseTemplateVO getUserWithSector(Long userId);
     List<AppUser> getAllUsers();
+    List<AppUser> getAllUsersInSector(Long sectorId);
+    List<AppUser> getAllUsersInCompany(Long companyId);
 }

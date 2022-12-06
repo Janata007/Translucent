@@ -59,4 +59,14 @@ public class UserController {
     public List<AppUser> getAllUsers() {
         return this.userService.getAllUsers();
     }
+
+    @GetMapping("/all/sector/{sectorId}")
+    public List<AppUser> getAllUsersInSector(@PathVariable Long sectorId) {
+        return this.userService.getAllUsersInSector(sectorId);
+    }
+
+    @GetMapping("/all/company/{companyId}")
+    public List<AppUser> getAllUsersInCompany(@PathVariable Long companyId) {
+        return this.userService.getAllUsersInCompany(companyId);
+    }
 }

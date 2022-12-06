@@ -38,6 +38,16 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findAll();
     }
 
+    @Override
+    public List<AppUser> getAllUsersInSector(Long sectorId) {
+        return this.userRepository.findAllBySectorId(sectorId);
+    }
+
+    @Override
+    public List<AppUser> getAllUsersInCompany(Long companyId) {
+        return this.userRepository.findAllByCompanyId(companyId);
+    }
+
     public AppUser getSimpleUser(Long userId) {
         return this.userRepository.findById(userId).orElseThrow();
     }
