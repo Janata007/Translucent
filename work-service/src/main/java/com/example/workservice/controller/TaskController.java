@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,5 +48,12 @@ public class TaskController {
     @GetMapping("/{id}/feedback")
     public TaskWithFeedbackResponseTemplateVO getTaskWithFeedbackList(@PathVariable("id") Long taskId) {
         return this.taskService.getTaskWithFeedbacks(taskId);
+    }
+
+    @PutMapping("/{id}/finished")
+    public Task setTaskToFinished(@PathVariable("id") Long id) {
+        Task task = this.taskService.findById(id);
+        task.setFinished(true);
+        return this.taskService.save(task);
     }
 }
