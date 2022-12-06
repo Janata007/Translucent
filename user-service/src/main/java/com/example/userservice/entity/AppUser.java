@@ -27,6 +27,7 @@ public class AppUser {
     private String password;
     private AppUserRole role;
     private boolean workVisible;
+    private Long superiorId;
     @ManyToMany
     private List<Arrangement> arrangements;
 }

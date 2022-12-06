@@ -5,6 +5,7 @@ import com.example.userservice.entity.ValueObjects.ResponseTemplateVO;
 import com.example.userservice.entity.ValueObjects.Sector;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.UserService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -31,7 +32,13 @@ public class UserServiceImpl implements UserService {
         vo.setSector(sector);
         return vo;
     }
-    public AppUser getSimpleUser(Long userId){
+
+    @Override
+    public List<AppUser> getAllUsers() {
+        return this.userRepository.findAll();
+    }
+
+    public AppUser getSimpleUser(Long userId) {
         return this.userRepository.findById(userId).orElseThrow();
     }
 }

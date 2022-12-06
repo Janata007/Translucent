@@ -26,5 +26,6 @@ public class Task {
     private Long createdByUser;
     private Long createdForUser;
     private LocalDateTime dateDue;
+    private boolean accepted;
 
 }

@@ -44,7 +44,7 @@ public class TaskController {
         return this.taskService.getTasksForUser(userId);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/feedback")
     public TaskWithFeedbackResponseTemplateVO getTaskWithFeedbackList(@PathVariable("id") Long taskId) {
         return this.taskService.getTaskWithFeedbacks(taskId);
     }
