@@ -1,9 +1,12 @@
 package com.example.sectorservice.controller;
 
 import com.example.sectorservice.entity.Company;
+import com.example.sectorservice.entity.OfferedService;
 import com.example.sectorservice.service.implementation.CompanyServiceImplementation;
 import com.example.sectorservice.service.implementation.SectorServiceImplementation;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,5 +47,15 @@ public class CompanyController {
     public Company addSectorToCompany(@PathVariable Long companyId, @PathVariable Long sectorId) {
         Company company = companyService.findById(companyId);
         return this.companyService.addSectorToCompany(companyId, sectorId);
+    }
+
+    @GetMapping("/services/{id}")
+    public List<OfferedService> getOfferedServicesForCompany(@PathVariable Long id) {
+        return this.companyService.getOfferedServicesForCompany(id);
+    }
+
+    @GetMapping("/serviceNeeded")
+    public List<Company> getCompaniesForNeededService(@Param("serviceNeeded") OfferedService serviceNeeded) {
+        return this.companyService.getCompaniesForNeededService(serviceNeeded);
     }
 }
