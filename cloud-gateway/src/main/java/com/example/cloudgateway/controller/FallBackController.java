@@ -20,4 +20,9 @@ public class FallBackController {
         return "Work service is taking longer than expected. Please try again later";
     }
 
+    @GetMapping("/feedbackServiceFallBack")
+    public String feedbackServiceFallBackMethod() {
+        return "Feedback service is taking longer than expected. Please try again later";
+    }
+
 }

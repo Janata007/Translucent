@@ -1,5 +1,6 @@
 package com.example.translucentfe.service;
 
+import com.example.translucentfe.model.NewUser;
 import com.example.translucentfe.model.UserWithSectorVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,12 @@ public class UserServiceImplementation implements UserService {
     public UserWithSectorVO getUserWithSector(Long userId) {
         UserWithSectorVO vo = new UserWithSectorVO();
         vo =
-            restTemplate.getForObject("http://USER-SERVICE/users/" + userId, UserWithSectorVO.class);
+            restTemplate.getForObject("http://9191/users/" + userId, UserWithSectorVO.class);
         return vo;
+    }
+    @Override
+    public NewUser registerUser(NewUser user) {
+        NewUser created = restTemplate.postForObject("http://9191/users/", user, NewUser.class);
+        return created;
     }
 }
