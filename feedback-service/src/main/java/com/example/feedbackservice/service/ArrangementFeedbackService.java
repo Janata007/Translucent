@@ -4,6 +4,7 @@ import com.example.feedbackservice.model.ArrangementFeedback;
 import java.util.List;
 
 public interface ArrangementFeedbackService {
-     List<ArrangementFeedback> getFeedbacksForArrangement(Long arrangementId);
-     ArrangementFeedback createFeedbackForArrangement(Long arrangementId, ArrangementFeedback feedback);
+    List<ArrangementFeedback> getFeedbacksForArrangement(Long arrangementId);
+
+    ArrangementFeedback createFeedbackForArrangement(ArrangementFeedback feedback);
 }

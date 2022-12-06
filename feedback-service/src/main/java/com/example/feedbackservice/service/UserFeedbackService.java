@@ -7,7 +7,7 @@ public interface UserFeedbackService {
     List<UserFeedback> getFeedbacksForUser(Long userId);
     List<UserFeedback> getFeedbacksFromUser(Long userId);
 
-    UserFeedback createFeedbackForUser(Long userId, UserFeedback feedback);
+    UserFeedback createFeedbackForUser(UserFeedback feedback);
 
     double getUserTaskPercentage(Long userId);
 

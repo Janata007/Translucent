@@ -1,6 +1,6 @@
 package com.example.translucentfe.controller;
 
-import com.example.translucentfe.model.NewUserDTO;
+import com.example.translucentfe.model.NewUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ public class UserController {
 
     @GetMapping("/register")
     public String registerUser(Model model) {
-        NewUserDTO newUserDTO = new NewUserDTO();
+        NewUser newUserDTO = new NewUser();
         model.addAttribute(newUserDTO);
         return "createUser";
     }

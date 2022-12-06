@@ -18,8 +18,7 @@ public class TaskFeedbackServiceImplementation implements TaskFeedbackService {
     }
 
     @Override
-    public TaskFeedback createFeedbackForTask(Long taskId, TaskFeedback feedback) {
-        feedback.setTaskId(taskId);
+    public TaskFeedback createFeedbackForTask( TaskFeedback feedback) {
         return this.taskFeedbackRepository.save(feedback);
     }
 }

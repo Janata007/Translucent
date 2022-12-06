@@ -17,10 +17,12 @@ public class TaskFeedbackController {
     @Autowired
     private TaskFeedbackServiceImplementation taskFeedbackService;
 
-    @PostMapping("/{taskId}")
-    public TaskFeedback createTaskFeedback(@PathVariable Long taskId, @RequestBody TaskFeedback feedback) {
+    @PostMapping("/{taskId}/{userFromId}")
+    public TaskFeedback createTaskFeedback(@PathVariable Long taskId, @PathVariable Long userFromId,
+                                           @RequestBody TaskFeedback feedback) {
         feedback.setTaskId(taskId);
-        return this.taskFeedbackService.createFeedbackForTask(taskId, feedback);
+        feedback.setUserFromId(userFromId);
+        return this.taskFeedbackService.createFeedbackForTask(feedback);
     }
 
     @GetMapping("/for/{id}")

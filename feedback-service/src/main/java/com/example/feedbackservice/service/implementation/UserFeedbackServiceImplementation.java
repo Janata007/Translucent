@@ -25,8 +25,7 @@ public class UserFeedbackServiceImplementation implements UserFeedbackService {
     }
 
     @Override
-    public UserFeedback createFeedbackForUser(Long userId, UserFeedback feedback) {
-        feedback.setUserForId(userId);
+    public UserFeedback createFeedbackForUser(UserFeedback feedback) {
         return this.userFeedbackRepository.save(feedback);
     }
 

@@ -17,9 +17,12 @@ public class UserFeedbackController {
     @Autowired
     private UserFeedbackServiceImplementation userFeedbackService;
 
-    @PostMapping("/{id}")
-    public UserFeedback createUserFeedback(@PathVariable Long id, @RequestBody UserFeedback feedback) {
-        return this.userFeedbackService.createFeedbackForUser(id, feedback);
+    @PostMapping("/{userForId}/{userFromId}")
+    public UserFeedback createUserFeedback(@PathVariable Long userForId, @PathVariable Long userFromId,
+                                           @RequestBody UserFeedback feedback) {
+        feedback.setUserForId(userForId);
+        feedback.setUserFromId(userFromId);
+        return this.userFeedbackService.createFeedbackForUser(feedback);
     }
 
     @GetMapping("/for/{id}")

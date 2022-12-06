@@ -17,10 +17,13 @@ public class ArrangementFeedbackController {
     @Autowired
     private ArrangementFeedbackServiceImplementation arrangementFeedbackService;
 
-    @PostMapping("/{arrangementId}")
-    public ArrangementFeedback createArrangementFeedback(@PathVariable Long arrangementId, @RequestBody
-    ArrangementFeedback feedback) {
-        return this.arrangementFeedbackService.createFeedbackForArrangement(arrangementId, feedback);
+    @PostMapping("/{arrangementId}/{userFromId}")
+    public ArrangementFeedback createArrangementFeedback(@PathVariable Long arrangementId,
+                                                         @PathVariable Long userFromId, @RequestBody
+                                                         ArrangementFeedback feedback) {
+        feedback.setArrangementId(arrangementId);
+        feedback.setUserFromId(userFromId);
+        return this.arrangementFeedbackService.createFeedbackForArrangement(feedback);
     }
 
     @GetMapping("/{id}")

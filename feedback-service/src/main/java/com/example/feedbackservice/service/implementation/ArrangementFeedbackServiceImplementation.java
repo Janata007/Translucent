@@ -18,8 +18,7 @@ public class ArrangementFeedbackServiceImplementation implements ArrangementFeed
     }
 
     @Override
-    public ArrangementFeedback createFeedbackForArrangement(Long arrangementId, ArrangementFeedback feedback) {
-        feedback.setArrangementId(arrangementId);
+    public ArrangementFeedback createFeedbackForArrangement(ArrangementFeedback feedback) {
         return this.arrangementFeedbackRepository.save(feedback);
     }
 }
