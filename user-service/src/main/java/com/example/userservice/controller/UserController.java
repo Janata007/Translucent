@@ -35,7 +35,7 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping("/")
+    @PostMapping("/save")
     public AppUser saveUser(@RequestBody NewUserRequestTemplateVO appUser) {
         log.info("saveUser in UserController");
         AppUser newUser = new AppUser();

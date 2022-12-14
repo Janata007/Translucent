@@ -1,7 +1,11 @@
 package com.example.userservice.entity;
 
 import com.example.userservice.AppUserRole;
+import com.example.userservice.CustomAuthority;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,12 +14,14 @@ import javax.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppUser {
+public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
@@ -31,4 +37,42 @@ public class AppUser {
     private Long superiorId;
     @ManyToMany
     private List<Arrangement> arrangements;
+    private boolean accountNonExpired = true;
+    private boolean accountNonLocked = true;
+    private boolean credentialsNonExpired = true;
+    private boolean enabled = true;
+    private String authority;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        CustomAuthority a = new CustomAuthority(authority);
+        authorities.add(a);
+        return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

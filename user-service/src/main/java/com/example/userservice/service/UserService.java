@@ -12,4 +12,5 @@ public interface UserService {
     List<AppUser> getAllUsers();
     List<AppUser> getAllUsersInSector(Long sectorId);
     List<AppUser> getAllUsersInCompany(Long companyId);
+    AppUser findByUsername(String username);
 }
