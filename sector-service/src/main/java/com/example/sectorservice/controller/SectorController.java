@@ -1,10 +1,13 @@
 package com.example.sectorservice.controller;
 
+import com.example.sectorservice.entity.JwtRequest;
+import com.example.sectorservice.entity.JwtResponse;
 import com.example.sectorservice.entity.OfferedService;
 import com.example.sectorservice.entity.Sector;
 import com.example.sectorservice.service.implementation.SectorServiceImplementation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class SectorController {
     @Autowired
     private SectorServiceImplementation sectorService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @PostMapping("/")
     public Sector saveSector(@RequestBody Sector sector) {
@@ -31,5 +36,11 @@ public class SectorController {
     @GetMapping("/services/{id}")
     public List<OfferedService> getOfferedServicesForSector(@PathVariable Long id) {
         return sectorService.getOfferedServicesForSector(id);
+    }
+
+    @PostMapping("/authenticate")
+    public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
+        //todo: redirect to user service auth
+        return new JwtResponse("token");
     }
 }

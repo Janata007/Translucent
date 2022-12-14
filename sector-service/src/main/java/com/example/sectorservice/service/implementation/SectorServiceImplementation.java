@@ -6,6 +6,7 @@ import com.example.sectorservice.entity.Sector;
 import com.example.sectorservice.repository.SectorRepository;
 import com.example.sectorservice.service.SectorService;
 import java.util.List;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,4 +32,5 @@ public class SectorServiceImplementation implements SectorService {
         Sector sector = this.sectorRepository.findById(id).orElseThrow();
         return sector.getOfferedServices();
     }
+
 }

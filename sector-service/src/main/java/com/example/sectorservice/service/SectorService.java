@@ -8,5 +8,6 @@ public interface SectorService {
     Sector save(Sector sector);
 
     Sector findById(Long id);
+
     List<OfferedService> getOfferedServicesForSector(Long id);
 }
