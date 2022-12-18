@@ -58,6 +58,10 @@ public class UserController {
     public AppUser getUser(@PathVariable("id") Long userId) {
         return this.userService.getSimpleUser(userId);
     }
+    @GetMapping("/user/{username}")
+    public AppUser getUserByUsername(@PathVariable("username") String username) {
+        return this.userService.findByUsername(username);
+    }
 
     @PutMapping("/setWorkVisible/{id}")
     public AppUser setWorkVisibleForUser(@PathVariable("id") Long id, @Param("visible") boolean visible) {

@@ -6,8 +6,10 @@ import com.example.userservice.entity.ValueObjects.NewArrangementRequestTemplate
 import com.example.userservice.service.implementation.ArrangementServiceImpl;
 import com.example.userservice.service.implementation.UserServiceImpl;
 import java.util.Arrays;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +38,11 @@ public class ArrangementController {
         newA.setPriority(a.getPriority());
         newA.setParticipants(Arrays.asList(user));
         return this.arrangementService.saveArrangement(newA);
+    }
+
+    @GetMapping("/all/{userId}")
+    public List<Arrangement> getAllArangementsForUser(@PathVariable Long userId) {
+        return this.arrangementService.getArrangementsByUserId(userId);
     }
 
     @PostMapping("/addParticipant/{userId}/{arrangementId}")
