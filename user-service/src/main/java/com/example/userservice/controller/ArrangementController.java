@@ -37,6 +37,7 @@ public class ArrangementController {
         newA.setEndTime(a.getEndTime());
         newA.setPriority(a.getPriority());
         newA.setParticipants(Arrays.asList(user));
+        newA.setCreatedByUser(user.getUserId());
         return this.arrangementService.saveArrangement(newA);
     }
 

@@ -34,7 +34,7 @@ public class TaskController {
     public Task saveTask(@RequestHeader("Authorization") String token, @RequestBody Task task,
                          @PathVariable Long byUserId, @PathVariable Long forUserId) {
         try {
-            this.tokenValidated(token);
+            this.validateToken(token);
         } catch (Exception e) {
         }
         //todo: change createdForUser to be in body instead of path variable
@@ -46,7 +46,7 @@ public class TaskController {
     @PostMapping("/remove/{id}")
     public Task removeTask(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         try {
-            this.tokenValidated(token);
+            this.validateToken(token);
         } catch (Exception e) {
         }
         Task task = this.taskService.findById(id);
@@ -57,7 +57,7 @@ public class TaskController {
     public TaskWithUserResponseTemplateVO getTaskWithUserForUser(@RequestHeader("Authorization") String token,
                                                                  @PathVariable("id") Long taskId) {
         try {
-            this.tokenValidated(token);
+            this.validateToken(token);
         } catch (Exception e) {
         }
         //the task created has the user listed as created FOR him
@@ -67,7 +67,7 @@ public class TaskController {
     @GetMapping("/tasks/{userId}")
     public List<Task> getTasksForUser(@RequestHeader("Authorization") String token, @PathVariable Long userId) {
         try {
-            this.tokenValidated(token);
+            this.validateToken(token);
         } catch (Exception e) {
         }
         return this.taskService.getTasksForUser(userId);
@@ -77,7 +77,7 @@ public class TaskController {
     public TaskWithFeedbackResponseTemplateVO getTaskWithFeedbackList(@RequestHeader("Authorization") String token,
                                                                       @PathVariable("id") Long taskId) {
         try {
-            this.tokenValidated(token);
+            this.validateToken(token);
         } catch (Exception e) {
         }
         return this.taskService.getTaskWithFeedbacks(taskId);
@@ -86,7 +86,7 @@ public class TaskController {
     @PutMapping("/{id}/finished")
     public Task setTaskToFinished(@RequestHeader("Authorization") String token, @PathVariable("id") Long id) {
         try {
-            this.tokenValidated(token);
+            this.validateToken(token);
         } catch (Exception e) {
         }
         Task task = this.taskService.findById(id);
@@ -94,7 +94,7 @@ public class TaskController {
         return this.taskService.save(task);
     }
 
-    protected Boolean tokenValidated(String token) throws Exception {
+    protected Boolean validateToken(String token) throws Exception {
         String[] chunks = token.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
