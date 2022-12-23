@@ -6,6 +6,7 @@ import com.example.workservice.model.Task;
 import com.example.workservice.model.valueObjects.TaskWithFeedbackResponseTemplateVO;
 import com.example.workservice.model.valueObjects.TaskWithUserResponseTemplateVO;
 import com.example.workservice.service.implementation.TaskServiceImplementation;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.crypto.DefaultJwtSignatureValidator;
 import java.util.Base64;
@@ -94,21 +95,18 @@ public class TaskController {
         return this.taskService.save(task);
     }
 
-    protected Boolean validateToken(String token) throws Exception {
-        String[] chunks = token.split("\\.");
+    public Boolean validateToken(String token) throws Exception {
+        String[] chunks = token.substring(7).split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
-
-        String header = new String(decoder.decode(chunks[0]));
         String payload = new String(decoder.decode(chunks[1]));
-        SignatureAlgorithm sa = HS256;
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), sa.getJcaName());
-        String tokenWithoutSignature = chunks[0] + "." + chunks[1];
-        String signature = chunks[2];
-        DefaultJwtSignatureValidator validator = new DefaultJwtSignatureValidator(sa, secretKeySpec);
-
-        if (!validator.isValid(tokenWithoutSignature, signature)) {
+        String payloadChunks []= payload.split(":|,");
+        String username ="";
+        try {
+            username = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(7)).getBody().getSubject();
+        }catch (Exception e){
             throw new Exception("Could not verify JWT token integrity!");
         }
+
         return true;
     }
 }

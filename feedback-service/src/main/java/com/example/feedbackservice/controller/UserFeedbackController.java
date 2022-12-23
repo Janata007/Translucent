@@ -29,7 +29,7 @@ public class UserFeedbackController {
                                            @PathVariable Long userFromId,
                                            @RequestBody UserFeedback feedback) {
         try {
-            this.tokenService.tokenValidated(token, secretKey);
+            this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
         }
         feedback.setUserForId(userForId);
@@ -40,7 +40,7 @@ public class UserFeedbackController {
     @GetMapping("/for/{id}")
     public List<UserFeedback> getUserFeedback(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         try {
-            this.tokenService.tokenValidated(token, secretKey);
+            this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
         }
         return this.userFeedbackService.getFeedbacksForUser(id);
@@ -49,7 +49,7 @@ public class UserFeedbackController {
     @GetMapping("/from/{id}")
     public List<UserFeedback> getUserFeedbackFrom(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         try {
-            this.tokenService.tokenValidated(token, secretKey);
+            this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
         }
         return this.userFeedbackService.getFeedbacksFromUser(id);

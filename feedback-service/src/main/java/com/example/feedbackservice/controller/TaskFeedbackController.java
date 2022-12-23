@@ -29,7 +29,7 @@ public class TaskFeedbackController {
                                            @PathVariable Long userFromId,
                                            @RequestBody TaskFeedback feedback) {
         try {
-            this.tokenService.tokenValidated(token, secretKey);
+            this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
         }
         feedback.setTaskId(taskId);
@@ -40,7 +40,7 @@ public class TaskFeedbackController {
     @GetMapping("/for/{id}")
     public List<TaskFeedback> getTaskFeedback(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         try {
-            this.tokenService.tokenValidated(token, secretKey);
+            this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
         }
         return this.taskFeedbackService.getFeedbacksForTask(id);

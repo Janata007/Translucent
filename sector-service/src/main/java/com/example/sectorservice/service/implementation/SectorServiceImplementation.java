@@ -6,14 +6,17 @@ import com.example.sectorservice.entity.OfferedService;
 import com.example.sectorservice.entity.Sector;
 import com.example.sectorservice.repository.SectorRepository;
 import com.example.sectorservice.service.SectorService;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.crypto.DefaultJwtSignatureValidator;
 import java.util.Base64;
 import java.util.List;
 import javax.crypto.spec.SecretKeySpec;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class SectorServiceImplementation implements SectorService {
     private final SectorRepository sectorRepository;
 
@@ -37,20 +40,17 @@ public class SectorServiceImplementation implements SectorService {
         return sector.getOfferedServices();
     }
     public Boolean validateToken(String token, String secretKey) throws Exception {
-        String[] chunks = token.split("\\.");
+        String[] chunks = token.substring(7).split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
-
-        String header = new String(decoder.decode(chunks[0]));
         String payload = new String(decoder.decode(chunks[1]));
-        SignatureAlgorithm sa = HS256;
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), sa.getJcaName());
-        String tokenWithoutSignature = chunks[0] + "." + chunks[1];
-        String signature = chunks[2];
-        DefaultJwtSignatureValidator validator = new DefaultJwtSignatureValidator(sa, secretKeySpec);
-
-        if (!validator.isValid(tokenWithoutSignature, signature)) {
+       String payloadChunks []= payload.split(":|,");
+       String username ="";
+        try {
+            username = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(7)).getBody().getSubject();
+        }catch (Exception e){
             throw new Exception("Could not verify JWT token integrity!");
         }
+
         return true;
     }
 

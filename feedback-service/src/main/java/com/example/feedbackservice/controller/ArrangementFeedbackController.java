@@ -30,7 +30,7 @@ public class ArrangementFeedbackController {
                                                          @PathVariable Long userFromId, @RequestBody
                                                          ArrangementFeedback feedback) {
         try {
-            this.tokenService.tokenValidated(token, secretKey);
+            this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
         }
         feedback.setArrangementId(arrangementId);
@@ -42,7 +42,7 @@ public class ArrangementFeedbackController {
     public List<ArrangementFeedback> getArrangementFeedbacks(@RequestHeader("Authorization") String token,
                                                              @PathVariable Long id) {
         try {
-            this.tokenService.tokenValidated(token, secretKey);
+            this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
         }
         return this.arrangementFeedbackService.getFeedbacksForArrangement(id);
