@@ -13,7 +13,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @Slf4j
-public class UserServiceSmokeTest{
+public class UserServiceSmokeTest {
 
     private String userToken;
 
@@ -21,14 +21,17 @@ public class UserServiceSmokeTest{
     }
 
     @Test(priority = 1, dataProvider = "createNewUser", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
-    public void createUserTest(String body) throws Exception {
+    public void createUserTest(String body) {
         HttpClient httpClient = HttpClientBuilder.create().build();
-
-        HttpPost request = new HttpPost("http://localhost:9002/users/save");
-        StringEntity entity = new StringEntity(body);
-        request.addHeader("content-type", "application/json");
-        request.setEntity(entity);
-        HttpResponse response = httpClient.execute(request);
+        HttpResponse response = null;
+        try {
+            HttpPost request = new HttpPost("http://localhost:9002/users/save");
+            StringEntity entity = new StringEntity(body);
+            request.addHeader("content-type", "application/json");
+            request.setEntity(entity);
+            response = httpClient.execute(request);
+        } catch (Exception e) {
+        }
         Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
     }
 
@@ -80,13 +83,29 @@ public class UserServiceSmokeTest{
     }
 
     @Test(priority = 5, dataProvider = "getUserWithUsername", dataProviderClass = ServiceDataProvider.class, description = "Verify successful authentication of user", alwaysRun = true)
-    public void getUserWithUsername(String username) {
+    public void getUserWithUsernameTest(String username) {
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = null;
         try {
-            log.info("TOKEN " + userToken);
             HttpGet request = new HttpGet("http://localhost:9002/users/user?username=" + username);
             request.addHeader("Authorization", "Bearer " + userToken);
+            response = httpClient.execute(request);
+        } catch (Exception e) {
+        }
+        log.info(response.toString());
+        Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
+    }
+
+    @Test(priority = 6, dataProvider = "addArrangement", dataProviderClass = ServiceDataProvider.class, description = "Verify successful authentication of user", alwaysRun = true)
+    public void addArrangementTest(String body, int userId) {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpResponse response = null;
+        try {
+            HttpPost request = new HttpPost("http://localhost:9002/arrangements/" + userId);
+            request.addHeader("Authorization", "Bearer " + userToken);
+            StringEntity entity = new StringEntity(body);
+            request.addHeader("content-type", "application/json");
+            request.setEntity(entity);
             response = httpClient.execute(request);
         } catch (Exception e) {
         }

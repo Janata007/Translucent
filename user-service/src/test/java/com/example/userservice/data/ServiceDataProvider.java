@@ -29,6 +29,17 @@ public class ServiceDataProvider {
             "}"}};
     }
 
+    @DataProvider(name = "addArrangement")
+    public static Object[][] addArrangement() {
+        return new Object[][] {{"{\n" +
+            "    \"name\":\"Meeting01\",\n" +
+            "    \"code\":\"M01\",\n" +
+            "    \"duration\":\"1.5\",\n" +
+            "    \"startTime\":\"2021-01-24T15:53:16\",\n" +
+            "    \"endTime\":\"2021-01-24T15:53:16\"\n" +
+            "}", 1}};
+    }
+
     @DataProvider(name = "getSimpleUserWithId")
     public static Object[][] getSimpleUserWithId() {
         return new Object[][] {{1}};
