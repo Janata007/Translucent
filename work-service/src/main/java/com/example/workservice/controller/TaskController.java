@@ -1,19 +1,17 @@
 package com.example.workservice.controller;
 
-import static io.jsonwebtoken.SignatureAlgorithm.HS256;
-
 import com.example.workservice.model.Task;
 import com.example.workservice.model.valueObjects.TaskWithFeedbackResponseTemplateVO;
 import com.example.workservice.model.valueObjects.TaskWithUserResponseTemplateVO;
 import com.example.workservice.service.implementation.TaskServiceImplementation;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.crypto.DefaultJwtSignatureValidator;
 import java.util.Base64;
 import java.util.List;
-import javax.crypto.spec.SecretKeySpec;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/work")
+@Slf4j
 public class TaskController {
     @Autowired
     private TaskServiceImplementation taskService;
@@ -32,81 +31,95 @@ public class TaskController {
     private String secretKey;
 
     @PostMapping("/{byUserId}/{forUserId}")
-    public Task saveTask(@RequestHeader("Authorization") String token, @RequestBody Task task,
-                         @PathVariable Long byUserId, @PathVariable Long forUserId) {
+    public ResponseEntity<Task> saveTask(@RequestHeader("Authorization") String token, @RequestBody Task task,
+                                         @PathVariable Long byUserId, @PathVariable Long forUserId) {
         try {
             this.validateToken(token);
         } catch (Exception e) {
+            return new ResponseEntity("Token not valid", HttpStatus.UNAUTHORIZED);
         }
         //todo: change createdForUser to be in body instead of path variable
         task.setCreatedByUser(byUserId);
         task.setCreatedForUser(forUserId);
-        return this.taskService.save(task);
+        Task saved = this.taskService.save(task);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
     @PostMapping("/remove/{id}")
-    public Task removeTask(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public ResponseEntity<Task> removeTask(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         try {
             this.validateToken(token);
         } catch (Exception e) {
+            return new ResponseEntity("Token not valid", HttpStatus.UNAUTHORIZED);
         }
         Task task = this.taskService.findById(id);
-        return this.taskService.remove(task);
+        Task removed = this.taskService.remove(task);
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public TaskWithUserResponseTemplateVO getTaskWithUserForUser(@RequestHeader("Authorization") String token,
-                                                                 @PathVariable("id") Long taskId) {
+    public ResponseEntity<TaskWithUserResponseTemplateVO> getTaskWithUserForUser(
+        @RequestHeader("Authorization") String token, @PathVariable("id") Long taskId) {
         try {
             this.validateToken(token);
         } catch (Exception e) {
+            return new ResponseEntity("Token not valid", HttpStatus.UNAUTHORIZED);
         }
         //the task created has the user listed as created FOR him
-        return this.taskService.getTaskWithUserForUser(taskId);
+        TaskWithUserResponseTemplateVO returned = this.taskService.getTaskWithUserForUser(taskId);
+        return new ResponseEntity<>(returned, HttpStatus.OK);
     }
 
     @GetMapping("/tasks/{userId}")
-    public List<Task> getTasksForUser(@RequestHeader("Authorization") String token, @PathVariable Long userId) {
+    public ResponseEntity<List<Task>> getTasksForUser(@RequestHeader("Authorization") String token,
+                                                      @PathVariable Long userId) {
         try {
             this.validateToken(token);
         } catch (Exception e) {
+            return new ResponseEntity("Token not valid", HttpStatus.UNAUTHORIZED);
         }
-        return this.taskService.getTasksForUser(userId);
+        List<Task> returnList = this.taskService.getTasksForUser(userId);
+        return new ResponseEntity<>(returnList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/feedback")
-    public TaskWithFeedbackResponseTemplateVO getTaskWithFeedbackList(@RequestHeader("Authorization") String token,
-                                                                      @PathVariable("id") Long taskId) {
+    public ResponseEntity<TaskWithFeedbackResponseTemplateVO> getTaskWithFeedbackList(
+        @RequestHeader("Authorization") String token,
+        @PathVariable("id") Long taskId) {
         try {
             this.validateToken(token);
         } catch (Exception e) {
+            return new ResponseEntity("Token not valid", HttpStatus.UNAUTHORIZED);
         }
-        return this.taskService.getTaskWithFeedbacks(taskId);
+        TaskWithFeedbackResponseTemplateVO returnValue = this.taskService.getTaskWithFeedbacks(taskId);
+        return new ResponseEntity<>(returnValue, HttpStatus.OK);
     }
 
     @PutMapping("/{id}/finished")
-    public Task setTaskToFinished(@RequestHeader("Authorization") String token, @PathVariable("id") Long id) {
+    public ResponseEntity<Task> setTaskToFinished(@RequestHeader("Authorization") String token,
+                                                  @PathVariable("id") Long id) {
         try {
             this.validateToken(token);
         } catch (Exception e) {
+            return new ResponseEntity("Token not valid", HttpStatus.UNAUTHORIZED);
         }
         Task task = this.taskService.findById(id);
         task.setFinished(true);
-        return this.taskService.save(task);
+        Task saved = this.taskService.save(task);
+        return new ResponseEntity<>(saved, org.springframework.http.HttpStatus.OK);
     }
 
     public Boolean validateToken(String token) throws Exception {
         String[] chunks = token.substring(7).split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
         String payload = new String(decoder.decode(chunks[1]));
-        String payloadChunks []= payload.split(":|,");
-        String username ="";
+        String payloadChunks[] = payload.split(":|,");
+        String username = "";
         try {
-            username = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(7)).getBody().getSubject();
-        }catch (Exception e){
+            username = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(8)).getBody().getSubject();
+        } catch (Exception e) {
             throw new Exception("Could not verify JWT token integrity!");
         }
-
         return true;
     }
 }
