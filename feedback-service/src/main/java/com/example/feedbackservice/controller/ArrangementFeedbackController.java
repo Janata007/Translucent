@@ -6,6 +6,8 @@ import com.example.feedbackservice.service.implementation.ArrangementFeedbackSer
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,26 +27,31 @@ public class ArrangementFeedbackController {
     private TokenService tokenService;
 
     @PostMapping("/{arrangementId}/{userFromId}")
-    public ArrangementFeedback createArrangementFeedback(@RequestHeader("Authorization") String token,
-                                                         @PathVariable Long arrangementId,
-                                                         @PathVariable Long userFromId, @RequestBody
-                                                         ArrangementFeedback feedback) {
+    public ResponseEntity<ArrangementFeedback> createArrangementFeedback(@RequestHeader("Authorization") String token,
+                                                                         @PathVariable Long arrangementId,
+                                                                         @PathVariable Long userFromId, @RequestBody
+                                                                         ArrangementFeedback feedback) {
         try {
             this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
         feedback.setArrangementId(arrangementId);
         feedback.setUserFromId(userFromId);
-        return this.arrangementFeedbackService.createFeedbackForArrangement(feedback);
+        ArrangementFeedback returnFeedback = this.arrangementFeedbackService.createFeedbackForArrangement(feedback);
+        return new ResponseEntity<>(returnFeedback, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public List<ArrangementFeedback> getArrangementFeedbacks(@RequestHeader("Authorization") String token,
-                                                             @PathVariable Long id) {
+    public ResponseEntity<List<ArrangementFeedback>> getArrangementFeedbacks(
+        @RequestHeader("Authorization") String token,
+        @PathVariable Long id) {
         try {
             this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        return this.arrangementFeedbackService.getFeedbacksForArrangement(id);
+        List<ArrangementFeedback> feedbackList = this.arrangementFeedbackService.getFeedbacksForArrangement(id);
+        return new ResponseEntity<>(feedbackList, HttpStatus.OK);
     }
 }

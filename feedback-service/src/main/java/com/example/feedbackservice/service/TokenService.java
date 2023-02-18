@@ -18,7 +18,7 @@ public class TokenService {
         try {
             username = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(7)).getBody().getSubject();
         } catch (Exception e) {
-            throw new Exception("Could not verify JWT token integrity!");
+            throw e;
         }
 
         return true;
