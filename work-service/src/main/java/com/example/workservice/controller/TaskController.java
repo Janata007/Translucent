@@ -36,7 +36,7 @@ public class TaskController {
         try {
             this.validateToken(token);
         } catch (Exception e) {
-            return new ResponseEntity("Token not valid", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
         //todo: change createdForUser to be in body instead of path variable
         task.setCreatedByUser(byUserId);
@@ -116,9 +116,9 @@ public class TaskController {
         String payloadChunks[] = payload.split(":|,");
         String username = "";
         try {
-            username = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(8)).getBody().getSubject();
+            username = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(7)).getBody().getSubject();
         } catch (Exception e) {
-            throw new Exception("Could not verify JWT token integrity!");
+            throw  e;
         }
         return true;
     }
