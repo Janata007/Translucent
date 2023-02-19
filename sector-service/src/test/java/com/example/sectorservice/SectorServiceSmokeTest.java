@@ -11,7 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-class SectorServiceSmokeTest {
+public class SectorServiceSmokeTest {
     private String userToken;
 
     public SectorServiceSmokeTest() {
@@ -20,8 +20,7 @@ class SectorServiceSmokeTest {
     @BeforeClass
     public void initialize() {
         userToken =
-            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtc2NvdHQiLCJleHAiOjE2NzY3NDgwMjksImlhdCI6MTY3NjcyNjQyOX0.KW7IgRxuHCRHJKRf2pkti1oVr8F3ZLOyunEj1yg48gQ";
-
+            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtc2NvdHQiLCJleHAiOjE2NzY4MzI0MjEsImlhdCI6MTY3NjgxMDgyMX0.Xz8KjS6pjX8kyS8V3F75VB8oXeDmp-ZWR_hKOwIVZYk";
     }
 
     @Test(priority = 1, dataProvider = "createSector", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
