@@ -8,6 +8,8 @@ import com.example.sectorservice.service.implementation.SectorServiceImplementat
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,41 +27,49 @@ public class SectorController {
     private String secretKey;
 
     @PostMapping("/")
-    public Sector saveSector(@RequestHeader("Authorization") String token, @RequestBody Sector sector) {
+    public ResponseEntity<Sector> saveSector(@RequestHeader("Authorization") String token, @RequestBody Sector sector) {
         try {
             this.sectorService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        return sectorService.save(sector);
+        Sector saved = this.sectorService.save(sector);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public Sector findById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public ResponseEntity<Sector> findById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
         try {
             this.sectorService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        return sectorService.findById(id);
+        Sector found = this.sectorService.findById(id);
+        return new ResponseEntity<>(found, HttpStatus.OK);
     }
 
     @GetMapping("/services/{id}")
-    public List<OfferedService> getOfferedServicesForSector(@RequestHeader("Authorization") String token,
-                                                            @PathVariable Long id) {
+    public ResponseEntity<List<OfferedService>> getOfferedServicesForSector(
+        @RequestHeader("Authorization") String token, @PathVariable Long id) {
         try {
             this.sectorService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        return sectorService.getOfferedServicesForSector(id);
+        List<OfferedService> services = this.sectorService.getOfferedServicesForSector(id);
+        return new ResponseEntity<>(services, HttpStatus.OK);
     }
 
     @PostMapping("/authenticate")
-    public JwtResponse authenticate(@RequestHeader("Authorization") String token, @RequestBody JwtRequest jwtRequest)
+    public ResponseEntity<JwtResponse> authenticate(@RequestHeader("Authorization") String token,
+                                                    @RequestBody JwtRequest jwtRequest)
         throws Exception {
         try {
             this.sectorService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         //todo: redirect to user service auth
-        return new JwtResponse("token");
+        return new ResponseEntity<>(new JwtResponse("token"), HttpStatus.OK);
     }
 }
