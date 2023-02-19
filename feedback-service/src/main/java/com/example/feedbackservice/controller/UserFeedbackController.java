@@ -6,6 +6,8 @@ import com.example.feedbackservice.service.implementation.UserFeedbackServiceImp
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,34 +27,43 @@ public class UserFeedbackController {
     private TokenService tokenService;
 
     @PostMapping("/{userForId}/{userFromId}")
-    public UserFeedback createUserFeedback(@RequestHeader("Authorization") String token, @PathVariable Long userForId,
-                                           @PathVariable Long userFromId,
-                                           @RequestBody UserFeedback feedback) {
+    public ResponseEntity<UserFeedback> createUserFeedback(@RequestHeader("Authorization") String token,
+                                                           @PathVariable Long userForId,
+                                                           @PathVariable Long userFromId,
+                                                           @RequestBody UserFeedback feedback) {
         try {
             this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
         feedback.setUserForId(userForId);
         feedback.setUserFromId(userFromId);
-        return this.userFeedbackService.createFeedbackForUser(feedback);
+        UserFeedback feedbackCreated = this.userFeedbackService.createFeedbackForUser(feedback);
+        return new ResponseEntity<>(feedbackCreated, HttpStatus.CREATED);
     }
 
     @GetMapping("/for/{id}")
-    public List<UserFeedback> getUserFeedback(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public ResponseEntity<List<UserFeedback>> getUserFeedback(@RequestHeader("Authorization") String token,
+                                                              @PathVariable Long id) {
         try {
             this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        return this.userFeedbackService.getFeedbacksForUser(id);
+        List<UserFeedback> feedbackList = this.userFeedbackService.getFeedbacksForUser(id);
+        return new ResponseEntity<>(feedbackList, HttpStatus.OK);
     }
 
     @GetMapping("/from/{id}")
-    public List<UserFeedback> getUserFeedbackFrom(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public ResponseEntity<List<UserFeedback>> getUserFeedbackFrom(@RequestHeader("Authorization") String token,
+                                                                  @PathVariable Long id) {
         try {
             this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        return this.userFeedbackService.getFeedbacksFromUser(id);
+        List<UserFeedback> feedbackList = this.userFeedbackService.getFeedbacksFromUser(id);
+        return new ResponseEntity<>(feedbackList, HttpStatus.OK);
     }
 
 }

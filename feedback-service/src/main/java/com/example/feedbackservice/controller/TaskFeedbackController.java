@@ -6,6 +6,8 @@ import com.example.feedbackservice.service.implementation.TaskFeedbackServiceImp
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,24 +27,30 @@ public class TaskFeedbackController {
     private TokenService tokenService;
 
     @PostMapping("/{taskId}/{userFromId}")
-    public TaskFeedback createTaskFeedback(@RequestHeader("Authorization") String token, @PathVariable Long taskId,
-                                           @PathVariable Long userFromId,
-                                           @RequestBody TaskFeedback feedback) {
+    public ResponseEntity<TaskFeedback> createTaskFeedback(@RequestHeader("Authorization") String token,
+                                                           @PathVariable Long taskId,
+                                                           @PathVariable Long userFromId,
+                                                           @RequestBody TaskFeedback feedback) {
         try {
             this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
         feedback.setTaskId(taskId);
         feedback.setUserFromId(userFromId);
-        return this.taskFeedbackService.createFeedbackForTask(feedback);
+        TaskFeedback feedbackCreated = this.taskFeedbackService.createFeedbackForTask(feedback);
+        return new ResponseEntity<>(feedbackCreated, HttpStatus.CREATED);
     }
 
     @GetMapping("/for/{id}")
-    public List<TaskFeedback> getTaskFeedback(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public ResponseEntity<List<TaskFeedback>> getTaskFeedback(@RequestHeader("Authorization") String token,
+                                                              @PathVariable Long id) {
         try {
             this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        return this.taskFeedbackService.getFeedbacksForTask(id);
+        List<TaskFeedback> feedbackList = this.taskFeedbackService.getFeedbacksForTask(id);
+        return new ResponseEntity<>(feedbackList, HttpStatus.OK);
     }
 }
