@@ -29,6 +29,12 @@ public class ArrangementController {
     public Arrangement saveNewArrangement(@RequestBody NewArrangementRequestTemplateVO a, @PathVariable Long userId) {
         log.info("saveArrangement in ArrangementController");
         AppUser user = this.userService.getSimpleUser(userId);
+        List<Arrangement> existing = this.arrangementService.getArrangementsByUserId(userId);
+        for(Arrangement ar: existing){
+            if(ar.getName().equals(a.getName()) && ar.getCode().equals(a.getCode())){
+                return null;
+            }
+        }
         Arrangement newA = new Arrangement();
         newA.setCode(a.getCode());
         newA.setName(a.getName());
