@@ -39,6 +39,12 @@ public class SectorServiceImplementation implements SectorService {
         Sector sector = this.sectorRepository.findById(id).orElseThrow();
         return sector.getOfferedServices();
     }
+
+    @Override
+    public List<Sector> getAllSectors() {
+        return this.sectorRepository.findAll();
+    }
+
     public Boolean validateToken(String token, String secretKey) throws Exception {
         String[] chunks = token.substring(7).split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();

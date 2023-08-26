@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JWTUtil implements Serializable {
-
     private int JWT_TOKEN_VALIDITY = 6 * 60 * 60;
     //from application.properties
     @Value("${jwt.secret}")
@@ -30,18 +29,15 @@ public class JWTUtil implements Serializable {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
-
     //for retrieving any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
-
 
     //check if the token has expired
     private Boolean isTokenExpired(String token) {
@@ -49,13 +45,11 @@ public class JWTUtil implements Serializable {
         return expiration.before(new Date());
     }
 
-
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername());
     }
-
 
     //while creating the token -
     //1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
@@ -65,7 +59,6 @@ public class JWTUtil implements Serializable {
             .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
             .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
-
 
     //validate token
     public Boolean validateToken(String token, UserDetails userDetails) {

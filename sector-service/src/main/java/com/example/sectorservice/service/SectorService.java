@@ -10,5 +10,6 @@ public interface SectorService {
     Sector findById(Long id);
 
     List<OfferedService> getOfferedServicesForSector(Long id);
+    List<Sector> getAllSectors();
     Boolean validateToken(String token, String secretKey) throws Exception;
 }

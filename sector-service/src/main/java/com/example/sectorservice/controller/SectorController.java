@@ -33,6 +33,11 @@ public class SectorController {
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
+        for(Sector s: this.sectorService.getAllSectors()){
+            if(s.getName().equals(sector.getName()) && s.getCode().equals(sector.getCode())){
+                return null;
+            }
+        }
         Sector saved = this.sectorService.save(sector);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
