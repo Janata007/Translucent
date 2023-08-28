@@ -39,6 +39,12 @@ public class UserController {
     @PostMapping("/save")
     public AppUser saveUser(@RequestBody NewUserRequestTemplateVO appUser) {
         log.info("saveUser in UserController");
+        for (AppUser user : this.userService.getAllUsers()) {
+            if (appUser.getUserName().equals(user.getUsername())) {
+                //todo: mby throw exception instead
+                return null;
+            }
+        }
         AppUser newUser = new AppUser();
         newUser.setUserName(appUser.getUserName());
         newUser.setFirstName(appUser.getFirstName());
@@ -59,6 +65,7 @@ public class UserController {
     public AppUser getUser(@PathVariable("id") Long userId) {
         return this.userService.getSimpleUser(userId);
     }
+
     @GetMapping("/user")
     public AppUser getUserByUsername(@RequestParam("username") String username) {
         return this.userService.findByUsername(username);
