@@ -23,8 +23,8 @@ public class Task {
     private String description;
     private boolean finished;
     private Long arrangementId;
-    private Long createdByUser;
-    private Long createdForUser;
+    private Long createdByUserId;
+    private Long createdForUserId;
     private LocalDateTime dateDue;
     private boolean accepted;
 

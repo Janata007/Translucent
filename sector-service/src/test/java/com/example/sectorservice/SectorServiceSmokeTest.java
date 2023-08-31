@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class SectorServiceSmokeTest {
-    private String userToken;
+    private String userToken="";
 
     public SectorServiceSmokeTest() {
     }
@@ -23,7 +23,23 @@ public class SectorServiceSmokeTest {
             "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtc2NvdHQiLCJleHAiOjE2NzY4MzI0MjEsImlhdCI6MTY3NjgxMDgyMX0.Xz8KjS6pjX8kyS8V3F75VB8oXeDmp-ZWR_hKOwIVZYk";
     }
 
-    @Test(priority = 1, dataProvider = "createSector", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
+    @Test(priority = 1, dataProvider = "authenticateUser", dataProviderClass = ServiceDataProvider.class, description = "authenticate user", alwaysRun = true)
+    public void authenticateUser(String body) {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpResponse response = null;
+        try {
+            HttpPost request = new HttpPost("http://localhost:9001/sector/authenticate");
+            StringEntity entity = new StringEntity(body);
+            request.addHeader("content-type", "application/json");
+            request.setEntity(entity);
+            response = httpClient.execute(request);
+            userToken = response.getEntity().getContent().toString();
+        } catch (Exception e) {
+        }
+        Assert.assertTrue(userToken.length()!=0);
+    }
+
+    @Test(priority = 2, dataProvider = "createSector", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
     public void createSectorTest(String body) {
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = null;
@@ -39,7 +55,7 @@ public class SectorServiceSmokeTest {
         Assert.assertEquals(response.getStatusLine().getStatusCode(), 201);
     }
 
-    @Test(priority = 2, dataProvider = "createCompany", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
+    @Test(priority = 3, dataProvider = "createCompany", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
     public void createCompanyTest(String body) {
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = null;
@@ -55,7 +71,7 @@ public class SectorServiceSmokeTest {
         Assert.assertEquals(response.getStatusLine().getStatusCode(), 201);
     }
 
-    @Test(priority = 3, dataProvider = "getSector", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
+    @Test(priority = 4, dataProvider = "getSector", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
     public void getSectorTest(int sectorId) {
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = null;
@@ -68,7 +84,7 @@ public class SectorServiceSmokeTest {
         Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
     }
 
-    @Test(priority = 4, dataProvider = "SectorToCompany", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
+    @Test(priority = 5, dataProvider = "SectorToCompany", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
     public void addSectorToCompanyTest(int companyId, int sectorId) {
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = null;
@@ -82,7 +98,7 @@ public class SectorServiceSmokeTest {
         Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
     }
 
-    @Test(priority = 5, dataProvider = "getCompany", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
+    @Test(priority = 6, dataProvider = "getCompany", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
     public void getCompanyTest(int companyId) {
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = null;
@@ -95,7 +111,7 @@ public class SectorServiceSmokeTest {
         Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
     }
 
-    @Test(priority = 6, dataProvider = "SectorToCompany", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
+    @Test(priority = 7, dataProvider = "SectorToCompany", dataProviderClass = ServiceDataProvider.class, description = "Verify successful creation of user", alwaysRun = true)
     public void removeSectorFromCompanyTest(int companyId, int sectorId) {
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = null;

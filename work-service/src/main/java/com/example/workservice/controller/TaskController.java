@@ -39,10 +39,19 @@ public class TaskController {
             return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
         //todo: change createdForUser to be in body instead of path variable
-        task.setCreatedByUser(byUserId);
-        task.setCreatedForUser(forUserId);
+        task.setCreatedByUserId(byUserId);
+        task.setCreatedForUserId(forUserId);
         Task saved = this.taskService.save(task);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<Task>> getAllTasks(@RequestHeader("Authorization") String token){
+        try {
+            this.validateToken(token);
+        }catch (Exception e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(this.taskService.getAllTasks(), HttpStatus.OK);
     }
 
     @PostMapping("/remove/{id}")
@@ -118,7 +127,7 @@ public class TaskController {
         try {
             username = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(7)).getBody().getSubject();
         } catch (Exception e) {
-            throw  e;
+            throw e;
         }
         return true;
     }

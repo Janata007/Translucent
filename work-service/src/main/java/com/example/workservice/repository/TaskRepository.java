@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Task> findAllByCreatedForUser(Long userId);
+    List<Task> findAllByCreatedForUserId(Long userId);
 }

@@ -46,7 +46,7 @@ public class TaskServiceImplementation implements TaskService {
         Task task = this.taskRepository.findById(taskId).orElseThrow();
         log.info("Task service, GET TASK WITH USER: task fetched " + task.getName());
         AppUser user =
-            restTemplate.getForObject("http://USER-SERVICE/users/simpleUser/" + task.getCreatedForUser(),
+            restTemplate.getForObject("http://USER-SERVICE/users/simpleUser/" + task.getCreatedForUserId(),
                 AppUser.class);
         vo.setAppUser(user);
         vo.setTask(task);
@@ -71,6 +71,11 @@ public class TaskServiceImplementation implements TaskService {
 
     @Override
     public List<Task> getTasksForUser(Long userId) {
-        return this.taskRepository.findAllByCreatedForUser(userId);
+        return this.taskRepository.findAllByCreatedForUserId(userId);
+    }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return this.taskRepository.findAll();
     }
 }

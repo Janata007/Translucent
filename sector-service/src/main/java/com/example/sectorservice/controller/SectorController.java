@@ -66,15 +66,9 @@ public class SectorController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<JwtResponse> authenticate(@RequestHeader("Authorization") String token,
-                                                    @RequestBody JwtRequest jwtRequest)
+    public ResponseEntity<JwtResponse> authenticate(@RequestBody JwtRequest request)
         throws Exception {
-        try {
-            this.sectorService.validateToken(token, secretKey);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-        //todo: redirect to user service auth
-        return new ResponseEntity<>(new JwtResponse("token"), HttpStatus.OK);
+        String token = this.sectorService.authenticateUser(request);
+        return new ResponseEntity<>(new JwtResponse(token), HttpStatus.OK);
     }
 }

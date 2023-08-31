@@ -15,4 +15,5 @@ public interface TaskService {
     TaskWithUserResponseTemplateVO getTaskWithUserForUser(Long taskId);
     TaskWithFeedbackResponseTemplateVO getTaskWithFeedbacks(Long taskId);
     List<Task> getTasksForUser(Long userId);
+    List<Task> getAllTasks();
 }
