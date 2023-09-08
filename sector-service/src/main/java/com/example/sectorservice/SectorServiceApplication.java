@@ -13,7 +13,6 @@ public class SectorServiceApplication {
         SpringApplication.run(SectorServiceApplication.class, args);
     }
     @Bean
-    @LoadBalanced
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }

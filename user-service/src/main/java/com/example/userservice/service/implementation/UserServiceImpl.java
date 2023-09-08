@@ -7,10 +7,16 @@ import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -19,6 +25,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private RestTemplate restTemplate;
+    private String token;
 
     @Override
     public AppUser saveUser(AppUser appUser) {
@@ -29,10 +36,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public ResponseTemplateVO getUserWithSector(Long userId) {
         ResponseTemplateVO vo = new ResponseTemplateVO();
         AppUser appUser = this.userRepository.findById(userId).get();
-        Sector sector =
-            restTemplate.getForObject("http://SECTOR-SERVICE/sector/" + appUser.getSectorId(), Sector.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<Sector> response = restTemplate.exchange(
+            "http://localhost:9001/sector/" + appUser.getSectorId(), HttpMethod.GET, requestEntity, Sector.class);
         vo.setAppUser(appUser);
-        vo.setSector(sector);
+        vo.setSector(response.getBody());
+
         return vo;
     }
 
@@ -63,5 +76,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepository.findByUserName(username);
+    }
+    public void setToken(String token){
+        this.token = token;
     }
 }

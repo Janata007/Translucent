@@ -6,6 +6,7 @@ import com.example.sectorservice.entity.OfferedService;
 import com.example.sectorservice.entity.Sector;
 import com.example.sectorservice.service.implementation.SectorServiceImplementation;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/sector")
+@Slf4j
 public class SectorController {
     @Autowired
     private SectorServiceImplementation sectorService;
@@ -44,6 +46,7 @@ public class SectorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Sector> findById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        log.info("Sector controller findById method");
         try {
             this.sectorService.validateToken(token, secretKey);
         } catch (Exception e) {
