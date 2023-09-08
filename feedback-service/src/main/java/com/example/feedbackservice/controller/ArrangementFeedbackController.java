@@ -54,4 +54,16 @@ public class ArrangementFeedbackController {
         List<ArrangementFeedback> feedbackList = this.arrangementFeedbackService.getFeedbacksForArrangement(id);
         return new ResponseEntity<>(feedbackList, HttpStatus.OK);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ArrangementFeedback>> getAllArrangementFeedbacks(
+        @RequestHeader("Authorization") String token) {
+        try {
+            this.tokenService.validateToken(token, secretKey);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+        List<ArrangementFeedback> feedbackList = this.arrangementFeedbackService.getAllArrangementFeedbacks();
+        return new ResponseEntity<>(feedbackList, HttpStatus.OK);
+    }
 }

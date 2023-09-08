@@ -53,4 +53,14 @@ public class TaskFeedbackController {
         List<TaskFeedback> feedbackList = this.taskFeedbackService.getFeedbacksForTask(id);
         return new ResponseEntity<>(feedbackList, HttpStatus.OK);
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<TaskFeedback>> getAllTaskFeedbacks(@RequestHeader("Authorization") String token){
+        try {
+            this.tokenService.validateToken(token, secretKey);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+        List<TaskFeedback> feedbackList = this.taskFeedbackService.getAllTaskFeedbacks();
+        return new ResponseEntity<>(feedbackList, HttpStatus.OK);
+    }
 }

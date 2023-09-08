@@ -7,4 +7,5 @@ public interface TaskFeedbackService {
     List<TaskFeedback> getFeedbacksForTask(Long taskId);
 
     TaskFeedback createFeedbackForTask(TaskFeedback feedback);
+    List<TaskFeedback> getAllTaskFeedbacks();
 }

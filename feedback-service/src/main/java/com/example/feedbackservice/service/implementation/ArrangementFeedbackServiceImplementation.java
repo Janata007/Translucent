@@ -1,5 +1,6 @@
 package com.example.feedbackservice.service.implementation;
 
+import com.example.feedbackservice.controller.ArrangementFeedbackController;
 import com.example.feedbackservice.model.ArrangementFeedback;
 import com.example.feedbackservice.repository.ArrangementFeedbackRepository;
 import com.example.feedbackservice.service.ArrangementFeedbackService;
@@ -15,6 +16,11 @@ public class ArrangementFeedbackServiceImplementation implements ArrangementFeed
     @Override
     public List<ArrangementFeedback> getFeedbacksForArrangement(Long arrangementId) {
         return this.arrangementFeedbackRepository.findAllByArrangementId(arrangementId);
+    }
+
+    @Override
+    public List<ArrangementFeedback> getAllArrangementFeedbacks() {
+        return this.arrangementFeedbackRepository.findAll();
     }
 
     @Override

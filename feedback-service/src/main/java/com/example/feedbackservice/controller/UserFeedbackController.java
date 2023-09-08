@@ -44,26 +44,36 @@ public class UserFeedbackController {
 
     @GetMapping("/for/{id}")
     public ResponseEntity<List<UserFeedback>> getUserFeedback(@RequestHeader("Authorization") String token,
-                                                              @PathVariable Long id) {
+                                                              @PathVariable Long userId) {
         try {
             this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        List<UserFeedback> feedbackList = this.userFeedbackService.getFeedbacksForUser(id);
+        List<UserFeedback> feedbackList = this.userFeedbackService.getFeedbacksForUser(userId);
         return new ResponseEntity<>(feedbackList, HttpStatus.OK);
     }
 
     @GetMapping("/from/{id}")
     public ResponseEntity<List<UserFeedback>> getUserFeedbackFrom(@RequestHeader("Authorization") String token,
-                                                                  @PathVariable Long id) {
+                                                                  @PathVariable Long userId) {
         try {
             this.tokenService.validateToken(token, secretKey);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
-        List<UserFeedback> feedbackList = this.userFeedbackService.getFeedbacksFromUser(id);
+        List<UserFeedback> feedbackList = this.userFeedbackService.getFeedbacksFromUser(userId);
         return new ResponseEntity<>(feedbackList, HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<UserFeedback>> getUserFeedbackFrom(@RequestHeader("Authorization") String token) {
+        try {
+            this.tokenService.validateToken(token, secretKey);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+        List<UserFeedback> feedbackList = this.userFeedbackService.getAllUserFeedbacks();
+        return new ResponseEntity<>(feedbackList, HttpStatus.OK);
+    }
 }

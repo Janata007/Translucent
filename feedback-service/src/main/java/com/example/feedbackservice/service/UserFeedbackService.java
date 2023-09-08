@@ -6,6 +6,7 @@ import java.util.List;
 public interface UserFeedbackService {
     List<UserFeedback> getFeedbacksForUser(Long userId);
     List<UserFeedback> getFeedbacksFromUser(Long userId);
+    List<UserFeedback> getAllUserFeedbacks();
 
     UserFeedback createFeedbackForUser(UserFeedback feedback);
 
