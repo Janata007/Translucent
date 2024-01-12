@@ -21,4 +21,9 @@ public class TaskFeedbackServiceImplementation implements TaskFeedbackService {
     public TaskFeedback createFeedbackForTask( TaskFeedback feedback) {
         return this.taskFeedbackRepository.save(feedback);
     }
+
+    @Override
+    public List<TaskFeedback> getAllTaskFeedbacks() {
+        return this.taskFeedbackRepository.findAll();
+    }
 }

@@ -114,6 +114,7 @@ public class UserController {
 
         final String token =
             jwtUtil.generateToken(userDetails);
+        userService.setToken(token);
 
         return new JwtResponse(token);
     }

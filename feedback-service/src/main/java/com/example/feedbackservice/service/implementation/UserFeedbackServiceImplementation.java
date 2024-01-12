@@ -25,6 +25,11 @@ public class UserFeedbackServiceImplementation implements UserFeedbackService {
     }
 
     @Override
+    public List<UserFeedback> getAllUserFeedbacks() {
+        return this.userFeedbackRepository.findAll();
+    }
+
+    @Override
     public UserFeedback createFeedbackForUser(UserFeedback feedback) {
         return this.userFeedbackRepository.save(feedback);
     }
