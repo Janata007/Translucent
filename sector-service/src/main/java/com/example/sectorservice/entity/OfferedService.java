@@ -6,7 +6,9 @@ public enum OfferedService {
     MARKETING,
     UI_DESIGN,
     GRAPHIC_DESIGN,
-    HR_MANAGEMENT,
-    EVENT_PLANNING,
-    ORGANIZATION
+    DESIGN,
+    HR,
+    EVENT,
+    ORGANIZATION,
+    TRANSCRIPTION
 }
