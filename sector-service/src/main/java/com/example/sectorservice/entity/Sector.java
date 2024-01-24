@@ -20,6 +20,7 @@ public class Sector {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String description;
     private String code;
     @ElementCollection
     private List<OfferedService> offeredServices;
