@@ -57,6 +57,17 @@ public class SectorController {
         Sector found = this.sectorService.findById(id);
         return new ResponseEntity<>(found, HttpStatus.OK);
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<Sector>> getAllSectors(@RequestHeader("Authorization") String token) {
+        log.info("Sector controller getAllSectors method");
+        try {
+            this.sectorService.validateToken(token, secretKey);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+        List<Sector> all = this.sectorService.getAllSectors();
+        return new ResponseEntity<>(all, HttpStatus.OK);
+    }
 
     @GetMapping("/services/{id}")
     public ResponseEntity<List<OfferedService>> getOfferedServicesForSector(

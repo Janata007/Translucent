@@ -27,6 +27,12 @@ public class SectorServiceImplementation implements SectorService {
 
     @Override
     public Sector save(Sector sector) {
+        List<Sector> all = getAllSectors();
+        for(Sector s: all){
+            if(s.getName().equals(sector.getName())){
+                return null;
+            }
+        }
         return sectorRepository.save(sector);
     }
 
