@@ -2,6 +2,7 @@ package com.example.sectorservice.controller;
 
 import com.example.sectorservice.entity.Company;
 import com.example.sectorservice.entity.OfferedService;
+import com.example.sectorservice.entity.Sector;
 import com.example.sectorservice.service.implementation.CompanyServiceImplementation;
 import com.example.sectorservice.service.implementation.SectorServiceImplementation;
 import java.util.List;
@@ -52,6 +53,18 @@ public class CompanyController {
         }
         Company found = this.companyService.findById(id);
         return new ResponseEntity<>(found, HttpStatus.OK);
+    }
+    @GetMapping("/{id}/sectors")
+    public ResponseEntity<List<Sector>> getSectorsForCompany(@RequestHeader("Authorization") String token, @PathVariable Long id){
+        try {
+            this.sectorService.validateToken(token, secretKey);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+
+            Company found = this.companyService.findById(id);
+            List<Sector> sectorList = found.getSectorList();
+            return new ResponseEntity<>(sectorList, HttpStatus.OK);
     }
 
     @PostMapping("/{id}/delete")
