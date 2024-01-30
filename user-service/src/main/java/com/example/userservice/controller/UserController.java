@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/users")
 @Slf4j
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost")
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
