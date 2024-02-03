@@ -25,11 +25,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 @RequestMapping("/users")
 @Slf4j
-@CrossOrigin(origins = "http://localhost")
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
@@ -38,9 +36,14 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @GetMapping("/{id}")
+    public ResponseTemplateVO getUserWithSector(@PathVariable("id") Long userId) {
+        log.info("Fetching user..");
+        return this.userService.getUserWithSector(userId);
+    }
     @PostMapping("/save")
     public AppUser saveUser(@RequestBody NewUserRequestTemplateVO appUser) {
-        log.info("saveUser in UserController");
+        log.info("Saving user..");
         for (AppUser user : this.userService.getAllUsers()) {
             if (appUser.getUserName().equals(user.getUsername())) {
                 //todo: mby throw exception instead
@@ -58,11 +61,6 @@ public class UserController {
         return this.userService.saveUser(newUser);
     }
 
-    @GetMapping("/{id}")
-    public ResponseTemplateVO getUserWithSector(@PathVariable("id") Long userId) {
-        return this.userService.getUserWithSector(userId);
-    }
-
     @GetMapping("/simpleUser/{id}")
     public AppUser getUser(@PathVariable("id") Long userId) {
         return this.userService.getSimpleUser(userId);
@@ -70,11 +68,13 @@ public class UserController {
 
     @GetMapping("/user")
     public AppUser getUserByUsername(@RequestParam("username") String username) {
+        log.info("Fetching user..");
         return this.userService.findByUsername(username);
     }
 
     @PutMapping("/setWorkVisible/{id}")
     public AppUser setWorkVisibleForUser(@PathVariable("id") Long id, @Param("visible") boolean visible) {
+        log.info("Setting work visible for user..");
         AppUser user = this.userService.getSimpleUser(id);
         user.setWorkVisible(visible);
         return this.userService.saveUser(user);
@@ -82,22 +82,24 @@ public class UserController {
 
     @GetMapping("/all")
     public List<AppUser> getAllUsers() {
+        log.info("Fetching all users..");
         return this.userService.getAllUsers();
     }
 
     @GetMapping("/all/sector/{sectorId}")
     public List<AppUser> getAllUsersInSector(@PathVariable Long sectorId) {
+        log.info("Fetching all users in sector..");
         return this.userService.getAllUsersInSector(sectorId);
     }
 
     @GetMapping("/all/company/{companyId}")
     public List<AppUser> getAllUsersInCompany(@PathVariable Long companyId) {
+        log.info("Fetching all users in company..");
         return this.userService.getAllUsersInCompany(companyId);
     }
-
     @PostMapping("/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
-
+        log.info("Authenticating user..");
         try {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
