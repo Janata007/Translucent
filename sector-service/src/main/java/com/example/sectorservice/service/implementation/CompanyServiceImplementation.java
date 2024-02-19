@@ -77,4 +77,9 @@ public class CompanyServiceImplementation implements CompanyService {
         }
         return companies;
     }
+
+    @Override
+    public List<Company> getAllCompanies() {
+        return this.companyRepository.findAll();
+    }
 }

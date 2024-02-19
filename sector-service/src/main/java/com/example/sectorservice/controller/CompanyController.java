@@ -127,5 +127,15 @@ public class CompanyController {
         List<Company> companyList = this.companyService.getCompaniesForNeededService(serviceNeeded);
         return new ResponseEntity<>(companyList, HttpStatus.OK);
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<Company>> getAllCompanies(@RequestHeader("Authorization") String token){
+        try {
+            this.sectorService.validateToken(token, secretKey);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+        List<Company> companyList = this.companyService.getAllCompanies();
+        return new ResponseEntity<>(companyList, HttpStatus.OK);
+    }
 
 }

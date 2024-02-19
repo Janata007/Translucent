@@ -16,4 +16,5 @@ public interface CompanyService {
     Company addSectorToCompany(Long companyId, Long sectorId);
     List<OfferedService> getOfferedServicesForCompany(Long companyId);
     List<Company> getCompaniesForNeededService(OfferedService neededService);
+    List<Company> getAllCompanies();
 }
