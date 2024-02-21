@@ -5,6 +5,7 @@ import com.example.userservice.entity.ValueObjects.ResponseTemplateVO;
 import com.example.userservice.entity.ValueObjects.Sector;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.UserService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -30,6 +31,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public AppUser saveUser(AppUser appUser) {
         return this.userRepository.save(appUser);
+    }
+
+    @Override
+    public List<AppUser> getUsersByUsername(String username) {
+        List<AppUser> userList = new ArrayList<>();
+        for(AppUser appUser:this.userRepository.findAll()){
+            if(appUser.getUsername().contains(username)){
+                userList.add(appUser);
+            }
+        }
+        return userList;
     }
 
     @Override

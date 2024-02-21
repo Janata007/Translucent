@@ -7,6 +7,7 @@ import java.util.List;
 public interface UserService {
 
     AppUser saveUser(AppUser appUser);
+    List<AppUser> getUsersByUsername(String username);
 
     ResponseTemplateVO getUserWithSector(Long userId);
     List<AppUser> getAllUsers();

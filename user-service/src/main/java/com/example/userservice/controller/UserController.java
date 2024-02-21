@@ -71,6 +71,12 @@ public class UserController {
         log.info("Fetching user..");
         return this.userService.findByUsername(username);
     }
+    @GetMapping("/by")
+    public List<AppUser> getUsersByUsernameInput(@RequestParam("username") String username){
+        log.info("Fetching users by username..");
+        return this.userService.getUsersByUsername(username);
+    }
+
 
     @PutMapping("/setWorkVisible/{id}")
     public AppUser setWorkVisibleForUser(@PathVariable("id") Long id, @Param("visible") boolean visible) {
