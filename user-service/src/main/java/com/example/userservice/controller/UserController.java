@@ -46,7 +46,6 @@ public class UserController {
         log.info("Saving user..");
         for (AppUser user : this.userService.getAllUsers()) {
             if (appUser.getUserName().equals(user.getUsername())) {
-                //todo: mby throw exception instead
                 return null;
             }
         }
@@ -59,6 +58,14 @@ public class UserController {
         newUser.setPassword(appUser.getPassword());
         newUser.setArrangements(new ArrayList<>());
         return this.userService.saveUser(newUser);
+    }
+    @PostMapping("/update/{id}")
+    public AppUser updateUser(@PathVariable("id") Long id, @RequestBody NewUserRequestTemplateVO appUser){
+    return this.userService.updateUser(id, appUser);
+    }
+    @PostMapping("/delete/{id}")
+    public AppUser deleteUser(@PathVariable("id") Long id){
+        return this.userService.deleteUser(id);
     }
 
     @GetMapping("/simpleUser/{id}")

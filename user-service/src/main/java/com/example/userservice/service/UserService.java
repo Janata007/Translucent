@@ -1,6 +1,7 @@
 package com.example.userservice.service;
 
 import com.example.userservice.entity.AppUser;
+import com.example.userservice.entity.ValueObjects.NewUserRequestTemplateVO;
 import com.example.userservice.entity.ValueObjects.ResponseTemplateVO;
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface UserService {
     List<AppUser> getAllUsersInSector(Long sectorId);
     List<AppUser> getAllUsersInCompany(Long companyId);
     AppUser findByUsername(String username);
+    AppUser deleteUser(Long userId);
+    AppUser updateUser(Long id, NewUserRequestTemplateVO appUser);
 }

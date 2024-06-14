@@ -1,6 +1,7 @@
 package com.example.userservice.service.implementation;
 
 import com.example.userservice.entity.AppUser;
+import com.example.userservice.entity.ValueObjects.NewUserRequestTemplateVO;
 import com.example.userservice.entity.ValueObjects.ResponseTemplateVO;
 import com.example.userservice.entity.ValueObjects.Sector;
 import com.example.userservice.repository.UserRepository;
@@ -79,6 +80,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public AppUser findByUsername(String username) {
         return this.userRepository.findByUserName(username);
+    }
+
+    @Override
+    public AppUser deleteUser(Long userId) {
+        AppUser user = this.userRepository.findById(userId).orElseThrow();
+        this.userRepository.deleteById(userId);
+        return user;
+    }
+
+    @Override
+    public AppUser updateUser(Long id, NewUserRequestTemplateVO appUser) {
+        AppUser updated = new AppUser();
+        updated.setUserName(appUser.getUserName());
+        updated.setFirstName(appUser.getFirstName());
+        updated.setEmail(appUser.getEmail());
+        updated.setPassword(appUser.getPassword());
+        updated.setUserId(id);
+        updated.setSectorId(appUser.getSectorId());
+        updated.setCompanyId(appUser.getCompanyId());
+        updated.setSuperiorId(appUser.getSuperiorId());
+        return this.userRepository.save(updated);
     }
 
     public AppUser getSimpleUser(Long userId) {

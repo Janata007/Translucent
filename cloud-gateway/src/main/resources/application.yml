@@ -3,7 +3,7 @@ spring:
     gateway:
       routes:
         - id: SECTOR-SERVICE
-          uri: lb://SECTOR-SERVICE
+          uri: JanaM://SECTOR-SERVICE
           predicates:
             - Path= /sectors/**
           filters:
@@ -12,7 +12,7 @@ spring:
                 name: USER-SERVICE
                 fallbackuri: forward:/userServiceFallBack
         - id: USER-SERVICE
-          uri: lb://USER-SERVICE
+          uri: JanaM://USER-SERVICE
           predicates:
             - Path=/users/**
           filters:
@@ -21,7 +21,7 @@ spring:
                 name: SECTOR-SERVICE
                 fallbackuri: forward:/sectorServiceFallBack
         - id: WORK-SERVICE
-          uri: lb://WORK-SERVICE
+          uri: JanaM://WORK-SERVICE
           predicates:
             - Path=/work/**
           filters:

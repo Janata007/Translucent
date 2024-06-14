@@ -14,5 +14,7 @@ public class NewUserRequestTemplateVO {
     private String lastName;
     private String email;
     private Long sectorId;
+    private Long companyId;
+    private Long superiorId;
     private String password;
 }
