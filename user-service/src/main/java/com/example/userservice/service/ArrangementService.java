@@ -8,6 +8,7 @@ public interface ArrangementService {
 
     Arrangement saveArrangement(Arrangement arrangement);
     List<Arrangement> getArrangementsByUserId(Long userId);
+    List<Arrangement> getArrangementsByUserIdParticipant(Long userId);
     Arrangement findById(Long id);
     Arrangement addNewParticipant(Arrangement a, AppUser u);
 }

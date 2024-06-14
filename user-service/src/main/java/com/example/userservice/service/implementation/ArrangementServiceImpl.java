@@ -5,9 +5,11 @@ import com.example.userservice.entity.Arrangement;
 import com.example.userservice.repository.ArrangementRepository;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.ArrangementService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ArrangementServiceImpl implements ArrangementService {
@@ -26,6 +28,20 @@ public class ArrangementServiceImpl implements ArrangementService {
         AppUser user = this.userRepository.findById(userId).orElseThrow();
         return this.arrangementRepository.findAllByCreatedByUser(userId);
 
+    }
+
+    @Override
+    public List<Arrangement> getArrangementsByUserIdParticipant(Long userId) {
+        List<Arrangement> all = this.arrangementRepository.findAll();
+        List<Arrangement> result = new ArrayList<Arrangement>();
+        for (Arrangement a : all) {
+            for (AppUser u : a.getParticipants()) {
+                if (u.getUserId().equals(userId)) {
+                    result.add(a);
+                }
+            }
+        }
+        return result;
     }
 
     @Override

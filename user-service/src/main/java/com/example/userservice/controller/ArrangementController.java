@@ -30,6 +30,11 @@ public class ArrangementController {
         log.info("Getting arrangements for user...");
         return this.arrangementService.getArrangementsByUserId(userId);
     }
+    @GetMapping("/participate/{userId}")
+    public List<Arrangement> getAllArangementsForParticipantUser(@PathVariable Long userId) {
+        log.info("Getting arrangements for user as participant...");
+        return this.arrangementService.getArrangementsByUserIdParticipant(userId);
+    }
 
     @PostMapping("/{userId}")
     public Arrangement saveNewArrangement(@RequestBody NewArrangementRequestTemplateVO a, @PathVariable Long userId) {
