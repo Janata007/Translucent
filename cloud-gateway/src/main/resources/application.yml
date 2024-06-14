@@ -29,6 +29,15 @@ spring:
               args:
                 name: WORK-SERVICE
                 fallbackuri: forward:/workServiceFallback
+        - id: FEEDBACK-SERVICE
+          uri: JanaM://FEEDBACK-SERVICE
+          predicates:
+            - Path=/feedback/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: FEEDBACK-SERVICE
+                fallbackuri: forward:/feedbackServiceFallBack
 hystrix:
   command:
     fallbackcmd:

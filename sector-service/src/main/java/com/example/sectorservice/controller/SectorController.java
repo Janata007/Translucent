@@ -48,7 +48,7 @@ public class SectorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Sector> findById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
-        log.info("Sector controller findById method");
+        log.info("Finding sector by id..");
         try {
             this.sectorService.validateToken(token, secretKey);
         } catch (Exception e) {
