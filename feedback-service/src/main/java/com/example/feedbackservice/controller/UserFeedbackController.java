@@ -44,7 +44,7 @@ public class UserFeedbackController {
         return new ResponseEntity<>(feedbackCreated, HttpStatus.CREATED);
     }
 
-    @GetMapping("/for/{id}")
+    @GetMapping("/for/{userId}")
     public ResponseEntity<List<UserFeedback>> getUserFeedback(@RequestHeader("Authorization") String token,
                                                               @PathVariable Long userId) {
         try {
@@ -56,7 +56,7 @@ public class UserFeedbackController {
         return new ResponseEntity<>(feedbackList, HttpStatus.OK);
     }
 
-    @GetMapping("/from/{id}")
+    @GetMapping("/from/{userId}")
     public ResponseEntity<List<UserFeedback>> getUserFeedbackFrom(@RequestHeader("Authorization") String token,
                                                                   @PathVariable Long userId) {
         try {

@@ -119,6 +119,19 @@ public class TaskController {
         Task saved = this.taskService.save(task);
         return new ResponseEntity<>(saved, org.springframework.http.HttpStatus.OK);
     }
+    @PutMapping("/{id}/unfinished")
+    public ResponseEntity<Task> setTaskToUnfinished(@RequestHeader("Authorization") String token,
+                                                  @PathVariable("id") Long id) {
+        try {
+            this.validateToken(token);
+        } catch (Exception e) {
+            return new ResponseEntity("Token not valid", HttpStatus.UNAUTHORIZED);
+        }
+        Task task = this.taskService.findById(id);
+        task.setFinished(false);
+        Task saved = this.taskService.save(task);
+        return new ResponseEntity<>(saved, org.springframework.http.HttpStatus.OK);
+    }
 
     public Boolean validateToken(String token) throws Exception {
         String[] chunks = token.substring(7).split("\\.");
