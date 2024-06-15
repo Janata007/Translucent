@@ -53,11 +53,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         headers.set("Authorization", "Bearer " + token);
 
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-
-        ResponseEntity<Sector> response = restTemplate.exchange(
-            "http://localhost:9001/sector/" + appUser.getSectorId(), HttpMethod.GET, requestEntity, Sector.class);
-        vo.setAppUser(appUser);
-        vo.setSector(response.getBody());
+        if(!(appUser.getSectorId() ==null)) {
+            ResponseEntity<Sector> response = restTemplate.exchange(
+                    "http://localhost:9001/sector/" + appUser.getSectorId(), HttpMethod.GET, requestEntity, Sector.class);
+            vo.setAppUser(appUser);
+            vo.setSector(response.getBody());
+        }else{
+            vo.setAppUser(appUser);
+            vo.setSector(null);
+        }
 
         return vo;
     }
