@@ -11,4 +11,5 @@ public interface ArrangementService {
     List<Arrangement> getArrangementsByUserIdParticipant(Long userId);
     Arrangement findById(Long id);
     Arrangement addNewParticipant(Arrangement a, AppUser u);
+    List<Arrangement> getAllArrangements();
 }

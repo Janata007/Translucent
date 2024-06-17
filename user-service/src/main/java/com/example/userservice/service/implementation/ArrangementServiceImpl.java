@@ -27,7 +27,10 @@ public class ArrangementServiceImpl implements ArrangementService {
     public List<Arrangement> getArrangementsByUserId(Long userId) {
         AppUser user = this.userRepository.findById(userId).orElseThrow();
         return this.arrangementRepository.findAllByCreatedByUser(userId);
-
+    }
+    @Override
+    public List<Arrangement> getAllArrangements() {
+        return this.arrangementRepository.findAll();
     }
 
     @Override

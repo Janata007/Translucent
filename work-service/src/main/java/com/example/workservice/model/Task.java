@@ -25,7 +25,8 @@ public class Task {
     private Long arrangementId;
     private Long createdByUserId;
     private Long createdForUserId;
-    private LocalDateTime dateDue;
+    private LocalDateTime dateDue; //yyyy-MM-dd-HH-mm-ss-ns format
+    private LocalDateTime dateCreated;
     private boolean accepted;
 
 }

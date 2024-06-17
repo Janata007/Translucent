@@ -5,6 +5,8 @@ import com.example.workservice.model.valueObjects.TaskWithFeedbackResponseTempla
 import com.example.workservice.model.valueObjects.TaskWithUserResponseTemplateVO;
 import com.example.workservice.service.implementation.TaskServiceImplementation;
 import io.jsonwebtoken.Jwts;
+
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,7 @@ public class TaskController {
         //todo: change createdForUser to be in body instead of path variable
         task.setCreatedByUserId(byUserId);
         task.setCreatedForUserId(forUserId);
+        task.setDateCreated(LocalDateTime.now());
         Task saved = this.taskService.save(task);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
