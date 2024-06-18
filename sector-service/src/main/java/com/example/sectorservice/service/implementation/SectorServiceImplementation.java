@@ -42,6 +42,13 @@ public class SectorServiceImplementation implements SectorService {
     }
 
     @Override
+    public Sector deleteById(Long id) {
+        Sector sector = findById(id);
+        sectorRepository.deleteById(id);
+        return sector;
+    }
+
+    @Override
     public List<OfferedService> getOfferedServicesForSector(Long id) {
         Sector sector = this.sectorRepository.findById(id).orElseThrow();
         return sector.getOfferedServices();

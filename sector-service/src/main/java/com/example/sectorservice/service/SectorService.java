@@ -9,6 +9,7 @@ public interface SectorService {
     Sector save(Sector sector);
 
     Sector findById(Long id);
+    Sector deleteById(Long id);
 
     List<OfferedService> getOfferedServicesForSector(Long id);
     List<Sector> getAllSectors();

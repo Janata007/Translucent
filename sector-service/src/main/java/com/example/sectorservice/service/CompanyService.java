@@ -10,6 +10,8 @@ public interface CompanyService {
     Company findById(Long id);
 
     void deleteById(Long id);
+    Company update(Company company);
+    List<Company> findAll();
 
     Company deleteSectorFromCompany(Long companyId, Long sectorId);
 

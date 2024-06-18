@@ -35,6 +35,16 @@ public class CompanyServiceImplementation implements CompanyService {
     }
 
     @Override
+    public Company update(Company company) {
+       return this.companyRepository.save(company);
+    }
+
+    @Override
+    public List<Company> findAll() {
+        return this.companyRepository.findAll();
+    }
+
+    @Override
     public Company deleteSectorFromCompany(Long companyId, Long sectorId) {
         Company company = this.companyRepository.findById(companyId).orElseThrow();
         Sector sector = this.sectorRepository.findById(sectorId).orElseThrow();

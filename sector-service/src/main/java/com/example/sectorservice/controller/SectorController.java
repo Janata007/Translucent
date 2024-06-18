@@ -1,9 +1,7 @@
 package com.example.sectorservice.controller;
 
-import com.example.sectorservice.entity.JwtRequest;
-import com.example.sectorservice.entity.JwtResponse;
-import com.example.sectorservice.entity.OfferedService;
-import com.example.sectorservice.entity.Sector;
+import com.example.sectorservice.entity.*;
+import com.example.sectorservice.service.implementation.CompanyServiceImplementation;
 import com.example.sectorservice.service.implementation.SectorServiceImplementation;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class SectorController {
     @Autowired
     private SectorServiceImplementation sectorService;
+    @Autowired
+    private CompanyServiceImplementation companyService;
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -79,6 +79,25 @@ public class SectorController {
         }
         List<OfferedService> services = this.sectorService.getOfferedServicesForSector(id);
         return new ResponseEntity<>(services, HttpStatus.OK);
+    }
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<Sector> deleteById(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        try {
+            this.sectorService.validateToken(token, secretKey);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+        List<Company> all = companyService.findAll();
+        for(Company c: all){
+            for(Sector s: c.getSectorList()){
+                if(s.getId().equals(id)){
+                    this.companyService.deleteSectorFromCompany(c.getId(),id);
+                }
+            }
+            companyService.update(c);
+        }
+        Sector s= this.sectorService.deleteById(id);
+        return new ResponseEntity<Sector>(s, HttpStatus.OK);
     }
 
     @PostMapping("/authenticate")
