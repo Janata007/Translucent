@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<AppUser> getUsersByUsername(String username) {
         List<AppUser> userList = new ArrayList<>();
         for(AppUser appUser:this.userRepository.findAll()){
-            if(appUser.getUsername().contains(username)){
+            if(appUser.getUsername().equals(username)){
                 userList.add(appUser);
             }
         }

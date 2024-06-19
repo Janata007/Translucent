@@ -13,12 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppUser implements UserDetails {
@@ -53,7 +55,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return this.userName;
     }
 
     @Override
