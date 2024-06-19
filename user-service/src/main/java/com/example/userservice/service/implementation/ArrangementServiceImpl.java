@@ -7,11 +7,13 @@ import com.example.userservice.repository.UserRepository;
 import com.example.userservice.service.ArrangementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@CrossOrigin
 public class ArrangementServiceImpl implements ArrangementService {
     @Autowired
     private ArrangementRepository arrangementRepository;
@@ -63,6 +65,7 @@ public class ArrangementServiceImpl implements ArrangementService {
         }
         if (!existsFlag) {
             a.addNewParticipant(u);
+            this.arrangementRepository.save(a);
         }
         return a;
     }
