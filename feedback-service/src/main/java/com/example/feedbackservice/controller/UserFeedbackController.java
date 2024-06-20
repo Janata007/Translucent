@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/feedback/user")
 @CrossOrigin
+@RequestMapping("/feedback/user")
 public class UserFeedbackController {
     @Autowired
     private UserFeedbackServiceImplementation userFeedbackService;
