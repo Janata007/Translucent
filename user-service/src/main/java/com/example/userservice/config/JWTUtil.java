@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +27,6 @@ public class JWTUtil implements Serializable {
     //retrieve expiration date from jwt token
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
-    }
-    public void setExpirationDateFromToken(String token) {Claims::setExpiration(LocalDateTime.now());
     }
 
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
