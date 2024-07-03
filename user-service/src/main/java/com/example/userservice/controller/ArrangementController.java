@@ -26,6 +26,12 @@ public class ArrangementController {
         log.info("Getting arrangements for user...");
         return this.arrangementService.getArrangementsByUserId(userId);
     }
+    @GetMapping("/all/username/{username}")
+    public List<Arrangement> getAllArangementsForUserByName(@PathVariable String username) {
+        log.info("Getting arrangements for user...");
+        AppUser user= this.userService.findByUsername(username);
+        return this.arrangementService.getArrangementsByUserId(user.getUserId());
+    }
     @GetMapping("/all")
     public List<Arrangement> getAllArangements() {
         log.info("Getting arrangements...");
@@ -75,5 +81,10 @@ public class ArrangementController {
         Arrangement a = this.arrangementService.findById(arrangementId);
         a.removeParticipant(user);
         return a;
+    }
+    @PostMapping("/removeArrangement/{arrangementId}")
+    public void removeArrangement(@PathVariable Long arrangementId) {
+        log.info("removing an arrangement in ArrangementController");
+        this.arrangementService.removeArrangement(arrangementId);
     }
 }

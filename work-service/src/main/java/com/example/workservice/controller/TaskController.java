@@ -73,13 +73,14 @@ public class TaskController {
             return new ResponseEntity("Token not valid", HttpStatus.UNAUTHORIZED);
         }
         //the task created has the user listed as created FOR him
-        TaskWithUserResponseTemplateVO returned = this.taskService.getTaskWithUserForUser(taskId);
+        TaskWithUserResponseTemplateVO returned = this.taskService.getTaskWithUserForUser(taskId, token);
         return new ResponseEntity<>(returned, HttpStatus.OK);
     }
 
     @GetMapping("/tasks/{userId}")
     public ResponseEntity<List<Task>> getTasksForUser(@RequestHeader("Authorization") String token,
                                                       @PathVariable Long userId) {
+        log.info("Fetching tasks for a user by id...");
         try {
             this.validateToken(token);
         } catch (Exception e) {
@@ -98,7 +99,7 @@ public class TaskController {
         } catch (Exception e) {
             return new ResponseEntity("Token not valid", HttpStatus.UNAUTHORIZED);
         }
-        TaskWithFeedbackResponseTemplateVO returnValue = this.taskService.getTaskWithFeedbacks(taskId);
+        TaskWithFeedbackResponseTemplateVO returnValue = this.taskService.getTaskWithFeedbacks(taskId, token);
         return new ResponseEntity<>(returnValue, HttpStatus.OK);
     }
 

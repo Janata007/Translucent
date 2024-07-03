@@ -1,5 +1,6 @@
 package com.example.userservice.service.implementation;
 
+import com.example.userservice.AppUserRole;
 import com.example.userservice.entity.AppUser;
 import com.example.userservice.entity.ValueObjects.NewUserRequestTemplateVO;
 import com.example.userservice.entity.ValueObjects.ResponseTemplateVO;
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public AppUser saveUser(AppUser appUser) {
+        appUser.setRole(AppUserRole.NORMAL);
         return this.userRepository.save(appUser);
     }
 
@@ -51,7 +53,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         AppUser appUser = this.userRepository.findById(userId).get();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
-
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
         if(!(appUser.getSectorId() ==null)) {
             ResponseEntity<Sector> response = restTemplate.exchange(

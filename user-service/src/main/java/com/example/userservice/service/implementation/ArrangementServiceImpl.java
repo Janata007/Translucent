@@ -36,6 +36,11 @@ public class ArrangementServiceImpl implements ArrangementService {
     }
 
     @Override
+    public void removeArrangement(Long id) {
+        this.arrangementRepository.deleteById(id);
+    }
+
+    @Override
     public List<Arrangement> getArrangementsByUserIdParticipant(Long userId) {
         List<Arrangement> all = this.arrangementRepository.findAll();
         List<Arrangement> result = new ArrayList<Arrangement>();

@@ -1,7 +1,6 @@
 package com.example.userservice;
 
 public enum AppUserRole {
-    MANAGER,
-    EMPLOYEE,
-    SELF_EMPLOYEED;
+    ADMINISTRATOR,
+    NORMAL,
 }

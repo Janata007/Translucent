@@ -9,9 +9,15 @@ import com.example.workservice.model.valueObjects.TaskWithUserResponseTemplateVO
 import com.example.workservice.repository.TaskRepository;
 import com.example.workservice.service.TaskService;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,29 +47,37 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Override
-    public TaskWithUserResponseTemplateVO getTaskWithUserForUser(Long taskId) {
+    public TaskWithUserResponseTemplateVO getTaskWithUserForUser(Long taskId, String token) {
         TaskWithUserResponseTemplateVO vo = new TaskWithUserResponseTemplateVO();
         Task task = this.taskRepository.findById(taskId).orElseThrow();
         log.info("Task service, GET TASK WITH USER: task fetched " + task.getName());
-        AppUser user =
-            restTemplate.getForObject("http://USER-SERVICE/users/simpleUser/" + task.getCreatedForUserId(),
-                AppUser.class);
-        vo.setAppUser(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        ResponseEntity<AppUser> responseUserFetch =
+            restTemplate.exchange("http://USER-SERVICE/users/simpleUser/" + task.getCreatedForUserId(), HttpMethod.GET,
+                requestEntity, AppUser.class);
+        vo.setAppUser(responseUserFetch.getBody());
         vo.setTask(task);
         return vo;
     }
 
     @Override
-    public TaskWithFeedbackResponseTemplateVO getTaskWithFeedbacks(Long taskId) {
+    public TaskWithFeedbackResponseTemplateVO getTaskWithFeedbacks(Long taskId, String token) {
         TaskWithFeedbackResponseTemplateVO vo = new TaskWithFeedbackResponseTemplateVO();
         Task task = this.taskRepository.findById(taskId).orElseThrow();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+        System.out.println("TOKEN: " + token);
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
         log.info("Task service, GET TASK WTIH FEEDBACK LIST: task fetched " + task.getName());
         List<TaskFeedback> feedbacks = new ArrayList<>();
-        TaskFeedbackList
-            //todo: check if json is properly deserialized like this
-            feedbackList =
-            restTemplate.getForObject("http://FEEDBACK-SERVICE/feedback/task/" + taskId, TaskFeedbackList.class);
-        feedbacks = feedbackList.getFeedbackList();
+        ResponseEntity<List<TaskFeedback>> feedbackList =
+                restTemplate.exchange("http://FEEDBACK-SERVICE/feedback/task/for/" + taskId, HttpMethod.GET, requestEntity,
+                        new ParameterizedTypeReference<List<TaskFeedback>>() {});
+        feedbacks = feedbackList.getBody();
         vo.setTask(task);
         vo.setFeedback(feedbacks);
         return vo;
