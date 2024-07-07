@@ -84,7 +84,6 @@ public class UserController {
         return this.userService.getUsersByUsername(username);
     }
 
-
     @PutMapping("/setWorkVisible/{id}")
     public AppUser setWorkVisibleForUser(@PathVariable("id") Long id, @Param("visible") boolean visible) {
         log.info("Setting work visible for user..");

@@ -2,15 +2,6 @@ package com.example.userservice.entity;
 
 import com.example.userservice.AppUserRole;
 import com.example.userservice.CustomAuthority;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -18,10 +9,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 @Entity
-@Data
 @Getter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
 public class AppUser implements UserDetails {
     @Id
@@ -37,7 +32,7 @@ public class AppUser implements UserDetails {
     private AppUserRole role;
     private boolean workVisible;
     private Long superiorId;
-    @ManyToMany
+    @OneToMany
     private List<Arrangement> arrangements;
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
@@ -77,4 +72,5 @@ public class AppUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
