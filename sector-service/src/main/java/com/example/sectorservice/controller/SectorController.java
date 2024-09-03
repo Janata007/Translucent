@@ -89,7 +89,7 @@ public class SectorController {
         }
         List<Company> all = companyService.findAll();
         for(Company c: all){
-            if(!c.getSectorList().isEmpty()){
+            if( c.getSectorList()!= null && !c.getSectorList().isEmpty()){
             for(Sector s: c.getSectorList()){
                 if(s.getId().equals(id)){
                     this.companyService.deleteSectorFromCompany(c.getId(),id);
