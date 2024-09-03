@@ -54,9 +54,18 @@ public class UserController {
         newUser.setFirstName(appUser.getFirstName());
         newUser.setLastName(appUser.getLastName());
         newUser.setEmail(appUser.getEmail());
-        newUser.setSectorId(appUser.getSectorId());
+        if(appUser.getSectorId() == 0){
+            newUser.setSectorId(82L);
+        }else{
+        newUser.setSectorId(appUser.getSectorId());}
         newUser.setPassword(appUser.getPassword());
         newUser.setArrangements(new ArrayList<>());
+        if(appUser.getSuperiorId() ==null){
+            newUser.setSuperiorId(65L);
+        }
+        if(appUser.getCompanyId()==null){
+            newUser.setCompanyId(39L);
+        }
         return this.userService.saveUser(newUser);
     }
     @PostMapping("/update/{id}")
@@ -129,7 +138,7 @@ public class UserController {
         final String token =
             jwtUtil.generateToken(userDetails);
         userService.setToken(token);
-
-        return new JwtResponse(token);
+        List<AppUser> users = this.userService.getUsersByUsername(jwtRequest.getUsername());
+        return new JwtResponse(token, users.get(0).getUserId());
     }
 }
